@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planificación Tablero Eléctrico - Buenos Aires</title>
+    <style>
+        :root {
+            --bg-panel: #f0f2f5;
+            --rail-color: #b0b0b0;
+            --device-border: #444;
+            --color-main: #e74c3c; /* Rojo - Corte General */
+            --color-prot: #f39c12; /* Naranja - Protecciones */
+            --color-smart: #3498db; /* Azul - Smart/Domótica */
+            --color-phase: #f1c40f; /* Amarillo - Selectores Fase */
+            --color-diff: #2ecc71; /* Verde - Disyuntores */
+            --color-solar: #9b59b6; /* Violeta - Solar */
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #333;
+            color: #333;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .legend {
+            display: flex;
+            gap: 15px;
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            font-size: 0.9em;
+        }
+
+        .dot {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        /* Gabinete Principal */
+        .cabinet {
+            background-color: var(--bg-panel);
+            border: 4px solid #555;
+            border-radius: 10px;
+            padding: 20px;
+            width: 100%;
+            max-width: 1000px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* Riel DIN */
+        .din-rail {
+            background: repeating-linear-gradient(
+                90deg,
+                #ccc,
+                #ccc 10px,
+                #bbb 10px,
+                #bbb 20px
+            );
+            height: 15px;
+            margin: 10px 0;
+            border-radius: 2px;
+            border: 1px solid #999;
+        }
+
+        .row {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 30px;
+            align-items: flex-end; /* Alinear dispositivos al riel */
+            padding-bottom: 5px; /* Espacio para el riel visual */
+            border-bottom: 15px solid #ccc; /* Simulación Riel DIN físico */
+            flex-wrap: wrap;
+        }
+
+        .row-label {
+            width: 100%;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 2px;
+        }
+
+        /* Dispositivos (Módulos) */
+        .device {
+            background: white;
+            border: 2px solid var(--device-border);
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 2px;
+            text-align: center;
+            font-size: 0.75em;
+            position: relative;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+            min-height: 100px;
+        }
+
+        .device:hover {
+            transform: translateY(-5px);
+            z-index: 10;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        /* Anchos relativos a módulos DIN (aprox) */
+        .w-1 { width: 30px; }  /* 1 Módulo (Unipolar) */
+        .w-2 { width: 60px; }  /* 2 Módulos (Bipolar) */
+        .w-3 { width: 90px; }  /* 3 Módulos (Trifásico/Selector) */
+        .w-4 { width: 120px; } /* 4 Módulos (Tetrapolar) */
+        .w-6 { width: 180px; } /* ATS / Bloques grandes */
+
+        /* Estilos específicos por tipo */
+        .type-main { border-top: 5px solid var(--color-main); }
+        .type-diff { border-top: 5px solid var(--color-diff); }
+        .type-smart { border-top: 5px solid var(--color-smart); background-color: #eef7ff; }
+        .type-phase { border-top: 5px solid var(--color-phase); background-color: #fffcf0; }
+        .type-solar { border-top: 5px solid var(--color-solar); }
+
+        .switch-handle {
+            width: 10px;
+            height: 20px;
+            background: #333;
+            margin: 5px 0;
+            border-radius: 2px;
+        }
+
+        .device-name {
+            font-weight: bold;
+            line-height: 1.1;
+            margin-bottom: 5px;
+        }
+
+        .device-spec {
+            font-size: 0.85em;
+            color: #666;
+        }
+
+        .smart-badge {
+            background: var(--color-smart);
+            color: white;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-size: 0.7em;
+            margin-top: 2px;
+        }
+
+        .phase-badge {
+            background: var(--color-phase);
+            color: #333;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-size: 0.7em;
+            font-weight: bold;
+            border: 1px solid #d4ac0d;
+        }
+
+        /* Tooltip simple */
+        .device[title]:hover::after {
+            content: attr(title);
+            position: absolute;
+            bottom: 105%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            white-space: pre;
+            width: max-content;
+            max-width: 200px;
+            z-index: 20;
+            pointer-events: none;
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>Tablero Seccional General (TSG) - Buenos Aires</h1>
+    
+    <div class="legend">
+        <div class="legend-item"><div class="dot" style="background:var(--color-main)"></div>Corte/Potencia</div>
+        <div class="legend-item"><div class="dot" style="background:var(--color-diff)"></div>Disyuntor (Seguridad)</div>
+        <div class="legend-item"><div class="dot" style="background:var(--color-phase)"></div>Selector Fase</div>
+        <div class="legend-item"><div class="dot" style="background:var(--color-smart)"></div>Smart / Domótica</div>
+        <div class="legend-item"><div class="dot" style="background:var(--color-solar)"></div>Solar</div>
+    </div>
+
+    <div class="cabinet">
+
+        <!-- FILA 1: ENTRADA Y GESTIÓN -->
+        <div class="row-label">FILA 1: Entrada, Protección General y Gestión de Fuentes</div>
+        <div class="row">
+            <div class="device w-4 type-main" title="Corte General de toda la casa.&#10;Tetrapolar 63A">
+                <span class="device-name">IGA Cabecera</span>
+                <div class="switch-handle"></div>
+                <span class="device-spec">4x63A</span>
+            </div>
+
+            <div class="device w-4 type-main" title="Protege contra Alta/Baja tensión.&#10;Corta si hay 380V por error.">
+                <span class="device-name">Prot. Tensión</span>
+                <div class="switch-handle"></div>
+                <span class="device-spec">Digital</span>
+            </div>
+
+            <div class="device w-6 type-main" title="Conmutador Automático de Transferencia.&#10;Cambia entre RED y GENERADOR.">
+                <span class="device-name">ATS (Red/Gen)</span>
+                <div class="switch-handle"></div>
+                <span class="device-spec">Auto</span>
+            </div>
+
+            <div class="device w-4 type-solar" title="Entrada futura para Inversor Solar.&#10;Conexión en paralelo a barras.">
+                <span class="device-name">Inyec. Solar</span>
+                <div class="switch-handle"></div>
+                <span class="device-spec">4x32A</span>
+            </div>
+        </div>
+
+        <!-- FILA 2: POTENCIA Y CARGAS FIJAS -->
+        <div class="row-label">FILA 2: Cargas de Potencia (Sin cambio de fase)</div>
+        <div class="row">
+            <div class="device w-4 type-diff" title="Disyuntor Diferencial para Aire y Bombas.&#10;Protege contra fugas.">
+                <span class="device-name">ID General 1</span>
+                <div class="switch-handle"></div>
+                <span class="device-spec">4x40A 30mA</span>
+            </div>
+
+            <div class="device w-4 type-main" title="Aire Acondicionado Central.&#10;Trifásico Inverter.">
+                <span class="device-name">AA Central</span>
+                <div class="switch-handle"></div>
+                <span class="device-spec">4x25A</span>
+            </div>
+
+            <div class="device w-2 type-smart" title="Cocina Inducción.&#10;Alto Consumo.">
+                <span class="device-name">Cocina</span>
+                <div class="switch-handle"></div>
+                <span class="device-spec">2x32A</span>
+                <span class="smart-badge">Smart 63A</span>
+            </div>
+
+            <div class="device w-2 type-smart" title="Bomba Piscina + Presurizadora.">
+                <span class="device-name">Bombas</span>
+                <div class="switch-handle"></div>
+                <span class="device-spec">2x16A</span>
+                <span class="smart-badge">Smart</span>
+            </div>
+        </div>
+
+        <!-- FILA 3: PLANTA BAJA (Con Selectores) -->
+        <div class="row-label">FILA 3: Planta Baja (Fases Seleccionables)</div>
+        <div class="row">
+            <div class="device w-4 type-diff" title="Disyuntor exclusivo Planta Baja.">
+                <span class="device-name">ID Planta Baja</span>
+                <div class="switch-handle"></div>
+                <span class="device-spec">4x40A 30mA</span>
+            </div>
+
+            <!-- Circuito Luces PB -->
+            <div class="device w-3 type-phase" title="Selector Automático.&#10;Si cae una fase, cambia solo.">
+                <span class="device-name">Sel. Auto</span>
+                <span class="phase-badge">LUCES</span>
+            </div>
+            <div class="device w-2 type-main">
+                <span class="device-name">Térmica</span>
+                <div class="switch-handle"></div>
+                <span class="device-spec">2x10A</span>
+            </div>
+            <div class="device w-1 type-smart">
+                <span class="device-name">Smart</span>
+                <span class="smart-badge">WiFi</span>
+            </div>
+
+            <!-- Espacio -->
+            <div style="width: 20px;"></div>
+
+            <!-- Circuito Tomas PB -->
+            <div class="device w-3 type-phase" title="Selector Manual Rotativo.&#10;Girar para cambiar fase.">
+                <span class="device-name">Sel. Manual</span>
+                <span class="phase-badge">TOMAS</span>
+            </div>
+            <div class="device w-2 type-main">
+                <span class="device-name">Térmica</span>
+                <div class="switch-handle"></div>
+                <span class="device-spec">2x16A</span>
+            </div>
+            <div class="device w-1 type-smart">
+                <span class="device-name">Smart</span>
+                <span class="smart-badge">WiFi</span>
+            </div>
+        </div>
+
+        <!-- FILA 4: PRIMER Y SEGUNDO PISO -->
+        <div class="row-label">FILA 4: Pisos Superiores (Fases Seleccionables)</div>
+        <div class="row">
+            <div class="device w-4 type-diff" title="Disyuntor Pisos Superiores.">
+                <span class="device-name">ID Pisos Sup.</span>
+                <div class="switch-handle"></div>
+                <span class="device-spec">4x40A 30mA</span>
+            </div>
+
+            <!-- Luces 1er Piso -->
+            <div class="device w-3 type-phase" title="Selector Automático Luces 1º Piso">
+                <span class="device-name">Sel. Auto</span>
+                <span class="phase-badge">LUCES 1º</span>
+            </div>
+            <div class="device w-2 type-main">
+                <span class="device-name">Prot.</span>
+                <div class="switch-handle"></div>
+                <span class="device-spec">10A</span>
+            </div>
+            <div class="device w-1 type-smart"><span class="smart-badge">Smart</span></div>
+
+            <!-- Tomas 1er Piso -->
+            <div class="device w-3 type-phase" title="Selector Manual Tomas 1º Piso">
+                <span class="device-name">Sel. Man</span>
+                <span class="phase-badge">TOMAS 1º</span>
+            </div>
+            <div class="device w-2 type-main">
+                <span class="device-name">Prot.</span>
+                <div class="switch-handle"></div>
+                <span class="device-spec">16A</span>
+            </div>
+            <div class="device w-1 type-smart"><span class="smart-badge">Smart</span></div>
+
+             <!-- Tomas 2do Piso (Simplificado visualmente) -->
+             <div class="device w-3 type-phase" title="Selector Manual Tomas 2º Piso">
+                <span class="device-name">Sel. Man</span>
+                <span class="phase-badge">TOMAS 2º</span>
+            </div>
+            <div class="device w-2 type-main">
+                <span class="device-name">Prot.</span>
+                <div class="switch-handle"></div>
+                <span class="device-spec">16A</span>
+            </div>
+            <div class="device w-1 type-smart"><span class="smart-badge">Smart</span></div>
+        </div>
+
+    </div>
+
+    <p style="color: #ccc; margin-top: 20px; font-size: 0.8em;">
+        *Nota: Este gráfico es esquemático. El ancho de los módulos es aproximado. 
+        Los selectores de fase se colocan antes de la térmica del circuito. 
+        Los Smart Breakers se colocan después de la térmica de protección.
+    </p>
+
+</body>
+</html>
