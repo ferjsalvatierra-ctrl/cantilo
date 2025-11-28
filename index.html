@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steel Framing 4.6×9.0m - SIN TANQUE + Dinteles Reticulados</title>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <style>
+        body { 
+            margin: 0; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        }
+        
+        #ui-panel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 360px;
+            height: 100vh;
+            background: rgba(15, 20, 35, 0.95);
+            color: white;
+            padding: 15px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            z-index: 1000;
+            border-right: 3px solid #4CAF50;
+            font-size: 12px;
+            transition: transform 0.3s ease;
+        }
+        
+        #ui-panel.hidden {
+            transform: translateX(-100%);
+        }
+        
+        #toggle-panel-btn {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1001;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(76, 175, 80, 0.4);
+            transition: all 0.3s ease;
+        }
+        
+        #toggle-panel-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.6);
+        }
+        
+        #controls {
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            z-index: 1000;
+        }
+        
+        #nav-controls {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+            justify-content: flex-end;
+        }
+        
+        #view-controls {
+            display: grid;
+            grid-template-columns: repeat(3, 40px);
+            gap: 5px;
+            margin-bottom: 8px;
+        }
+        
+        #zoom-controls {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        
+        .control-btn {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(76, 175, 80, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .control-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+        
+        .control-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .view-btn {
+            background: linear-gradient(45deg, #FF9800, #F57C00);
+            width: 40px;
+            height: 40px;
+            font-size: 14px;
+            padding: 0;
+        }
+        
+        .zoom-btn {
+            background: linear-gradient(45deg, #2196F3, #1976D2);
+            width: 40px;
+            height: 40px;
+            font-size: 18px;
+            padding: 0;
+        }
+        
+        #step-info {
+            background: rgba(76, 175, 80, 0.1);
+            border: 1px solid #4CAF50;
+            border-radius: 6px;
+            padding: 10px;
+            margin-bottom: 12px;
+        }
+        
+        .material-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            padding: 8px;
+            margin: 5px 0;
+            border-left: 3px solid #4CAF50;
+            font-size: 10px;
+            line-height: 1.4;
+        }
+        
+        .tech-specs {
+            background: rgba(33, 150, 243, 0.15);
+            border-left: 3px solid #2196F3;
+            padding: 6px;
+            margin-top: 4px;
+            font-size: 9px;
+            color: #90CAF9;
+        }
+        
+        .cost-info {
+            background: rgba(255, 193, 7, 0.2);
+            border: 1px solid #FFC107;
+            border-radius: 4px;
+            padding: 8px;
+            margin-top: 12px;
+            text-align: center;
+            font-size: 11px;
+        }
+        
+        .critical { border-left-color: #FF5722 !important; }
+        .important { border-left-color: #FF9800 !important; }
+        .standard { border-left-color: #4CAF50 !important; }
+        
+        h1 { color: #4CAF50; margin-bottom: 12px; font-size: 17px; }
+        h2 { color: #FFC107; margin: 10px 0 6px 0; font-size: 13px; }
+        h3 { color: #81C784; margin: 6px 0 3px 0; font-size: 11px; }
+        
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 3px;
+            margin: 8px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+            transition: width 0.5s ease;
+            border-radius: 3px;
+        }
+        
+        a-scene {
+            margin-left: 360px;
+            transition: margin-left 0.3s ease;
+        }
+        
+        a-scene.full-width {
+            margin-left: 0;
+        }
+        
+        .final-badge {
+            background: rgba(76, 175, 80, 0.25);
+            border: 2px solid #4CAF50;
+            border-radius: 6px;
+            padding: 8px;
+            margin: 8px 0;
+            font-size: 11px;
+            text-align: center;
+            color: #81C784;
+            font-weight: bold;
+        }
+        
+        .warning-note {
+            background: rgba(255, 152, 0, 0.2);
+            border: 1px solid #FF9800;
+            border-radius: 4px;
+            padding: 6px;
+            margin: 8px 0;
+            font-size: 9px;
+            color: #FFB74D;
+        }
+        
+        @media (max-width: 768px) {
+            #ui-panel { width: 100%; height: 250px; font-size: 10px; }
+            a-scene { margin-left: 0; margin-top: 250px; }
+            a-scene.full-width { margin-top: 0; }
+        }
+    </style>
+</head>
+<body>
+    <button id="toggle-panel-btn" onclick="togglePanel()">☰</button>
+
+    <div id="ui-panel">
+        <h1>🏗️ Steel Framing 4.6×9.0m</h1>
+        
+        <div class="final-badge">
+            ✅ VERSIÓN FINAL<br>
+            SIN TANQUE + Dinteles Reticulados<br>
+            Montantes continuos cada 40cm
+        </div>
+        
+        <div class="warning-note">
+            ⚠️ <strong>Ajustes carrito pendientes:</strong><br>
+            • PGC 150: 14→18 barras (+4)<br>
+            • Base coat: 6→10 baldes (+4)
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress" style="width: 10%"></div>
+        </div>
+        
+        <div id="step-info">
+            <h2 id="step-title">PASO 1: Soleras Perímetro</h2>
+            <p id="step-description" style="font-size: 10px;">Marco guía horizontal donde se insertan montantes verticales</p>
+        </div>
+        
+        <div id="materials-info">
+            <h3>📦 Materiales + Especificaciones:</h3>
+            <div id="current-materials">
+                <div class="material-item critical">
+                    <strong>PGU 100×35×1.6mm</strong><br>
+                    18 barras × 6m = 108 metros totales
+                    <div class="tech-specs">
+                        • 12 barras → Soleras (perímetro completo)<br>
+                        • 6 barras → Dinteles reticulados<br>
+                        • Instalación: Perímetro 27.2m continuo
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cost-info">
+            <h3>💰 <span id="cost-display">$769,671</span></h3>
+            <small id="progress-text">Paso 1/10</small>
+        </div>
+        
+        <div style="margin-top: 10px;">
+            <h3>🎮 Controles:</h3>
+            <p style="font-size: 9px; color: #ccc;">
+                ☰ Ocultar | ←→ Pasos | 🟠 Vistas<br>
+                🔵 Zoom | Arrastrar: Rotar
+            </p>
+        </div>
+    </div>
+
+    <div id="controls">
+        <div id="nav-controls">
+            <button class="control-btn" id="prev-btn" onclick="previousStep()" disabled>◀ Ant</button>
+            <button class="control-btn" id="auto-btn" onclick="toggleAuto()">▶️ Auto</button>
+            <button class="control-btn" id="next-btn" onclick="nextStep()">Sig ▶</button>
+        </div>
+        
+        <div id="view-controls">
+            <div></div>
+            <button class="control-btn view-btn" onclick="viewTop()">↑</button>
+            <div></div>
+            <button class="control-btn view-btn" onclick="viewLeft()">←</button>
+            <button class="control-btn view-btn" onclick="viewFront()">●</button>
+            <button class="control-btn view-btn" onclick="viewRight()">→</button>
+            <div></div>
+            <button class="control-btn view-btn" onclick="viewBottom()">↓</button>
+            <div></div>
+        </div>
+        
+        <div id="zoom-controls">
+            <button class="control-btn zoom-btn" onclick="zoomIn()">+</button>
+            <button class="control-btn zoom-btn" onclick="zoomOut()">−</button>
+            <button class="control-btn zoom-btn" onclick="resetView()">🔄</button>
+        </div>
+    </div>
+
+    <a-scene id="scene"
+        background="color: #E3F2FD"
+        fog="type: linear; color: #E3F2FD; near: 15; far: 60"
+        vr-mode-ui="enabled: false">
+        
+        <a-light type="ambient" color="#606060" intensity="0.6"></a-light>
+        <a-light type="directional" position="15 20 15" intensity="1" 
+                 light="castShadow: true"></a-light>
+        
+        <a-plane position="0 -0.2 0" rotation="-90 0 0" width="25" height="25" 
+                 color="#37474F" opacity="0.8"></a-plane>
+        
+        <a-cylinder position="10 0.85 10" radius="0.3" height="1.7" color="#2196F3" opacity="0.5"></a-cylinder>
+        <a-text position="10 2.2 10" value="1.7m" color="#2196F3" align="center" scale="0.7 0.7 0.7"></a-text>
+        
+        <a-text position="-5.5 0.5 0" value="ESTE\n4.6m\nVENTANA" 
+                color="#FF5722" align="center" scale="0.8 0.8 0.8"></a-text>
+        <a-text position="5.5 0.5 0" value="OESTE\n4.6m\nVENTANA" 
+                color="#FF5722" align="center" scale="0.8 0.8 0.8"></a-text>
+        <a-text position="0 0.5 -3" value="NORTE 9m" 
+                color="#4CAF50" align="center" scale="0.8 0.8 0.8"></a-text>
+        <a-text position="0 0.5 3" value="SUR 9m" 
+                color="#4CAF50" align="center" scale="0.8 0.8 0.8"></a-text>
+
+        <!-- PASO 1: SOLERAS -->
+        <a-entity id="step1" visible="true">
+            <a-box position="0 0.035 -2.3" width="9" height="0.07" depth="0.2" 
+                   color="#e74c3c" material="metalness: 0.8"></a-box>
+            <a-box position="0 0.035 2.3" width="9" height="0.07" depth="0.2" 
+                   color="#e74c3c" material="metalness: 0.8"></a-box>
+            <a-box position="-4.5 0.035 0" width="0.2" height="0.07" depth="4.6" 
+                   color="#e74c3c" material="metalness: 0.8"></a-box>
+            <a-box position="4.5 0.035 0" width="0.2" height="0.07" depth="4.6" 
+                   color="#e74c3c" material="metalness: 0.8"></a-box>
+            <a-box position="0 2.6 -2.3" width="9" height="0.07" depth="0.2" 
+                   color="#e74c3c" material="metalness: 0.8"></a-box>
+            <a-box position="0 2.6 2.3" width="9" height="0.07" depth="0.2" 
+                   color="#e74c3c" material="metalness: 0.8"></a-box>
+            <a-box position="-4.5 2.6 0" width="0.2" height="0.07" depth="4.6" 
+                   color="#e74c3c" material="metalness: 0.8"></a-box>
+            <a-box position="4.5 2.6 0" width="0.2" height="0.07" depth="4.6" 
+                   color="#e74c3c" material="metalness: 0.8"></a-box>
+        </a-entity>
+
+        <!-- PASO 2: MONTANTES NORMALES CONTINUOS (SIN HUECOS) -->
+        <a-entity id="step2" visible="false">
+            <!-- MURO NORTE: 14 montantes continuos cada ~64cm -->
+            <a-box position="-4.2 1.3 -2.3" width="0.1" height="2.6" depth="0.08" color="#c0392b" material="metalness: 0.9"></a-box>
+            <a-box position="-3.6 1.3 -2.3" width="0.1" height="2.6" depth="0.08" color="#c0392b" material="metalness: 0.9"></a-box>
+            <a-box position="-3.0 1.3 -2.3" width="0.1" height="2.6" depth="0.08" color="#c0392b" material="metalness: 0.9"></a-box>
+            <a-box position="-2.4 1.3 -2.3" width="0.1" height="2.6" depth="0.08" color="#c0392b" material="metalness: 0.9"></a-box>
+            <a-box position="-1.8 1.3 -2.3" width="0.1" height="2.6" depth="0.08" color="#c0392b" material="metalness: 0.9"></a-box>
+            <a-box position="-1.2 1.3 -2.3" width="0.1" height="2.6" depth="0.08" color="#c0392b" material="metalness: 0.9"></a-box>
+            <a-box position="-0.6 1.3 -2.3" width="0.1" height="2.6" depth="0.08" color="#c0392b" material="metalness: 0.9"></a-box>
+            <a-box position="0.0 1.3 -2.3" width="0.1" height="2.6" depth="0.08" color="#c0392b" material="metalness: 0.9"></a-box>
+            <a-box position="0.6 1.3 -2.3" width="0.1" height="2.6" depth="0.08" color="#c0392b" material="metalness: 0.9"></a-box>
+            <a-box position="1.2 1.3 -2.3" width="0.1" height="2.6" depth="0.08" color="#c0392b" material="metalness: 0.9"></a-box>
+            <a-box position="1.8 1.3 -2.3" width="0.1" height="2.6" depth="0.08" color="#c0392b" material="metalness: 0.9"></a-box>
+            <a-box position="2.4 1.3 -2.3" width="0.1" height="2.6" depth="0.08" color="#c0392b" material="metalness: 0.9"></a-box>
+            <a-box position="3.0 1.3 -2.3" width="0.1" height="2.6" depth="0.08" color="#c0392b" material="metalness: 0.9"></a-box>
+            <a-box position="3.6 1.3 -2.3" width="0.1" height="2.6" depth="0.08" color="#c0392b" material="metalness: 0.9"></a-box>
+            <a-box position="4.2 1.3 -2.3" width="0.1" height="2.6" depth="0.08" color="#c0392b" material="metalness: 0.9"></a-box>
+            
+            <!-- MURO SUR: 14 montantes continuos cada ~64cm -->
+            <a-box position="-4.2 1.3 2.3" width="0.1" height="2.6" depth="0.08" color="#c0392b" material="metalness: 0.9"></a-box>
+            <a-box position="-3.6 1.3 2.3" width="0.1" height="2.6" depth="0.08" color="#c0392b" material="metalness: 0.9"></a-box>
+            <a-box position="-3.0 1.3 2.3" width="0.1" height="2.6" depth="0.08" color="#c0392b" material="metalness: 0.9"></a-box>
+            <a-box position="-2.4 1.3 2.3" width="0.1" height="2.6" depth="0.08" color="#c0392b" material="metalness: 0.9"></a-box>
+            <a-box position="-1.8 1.3 2.3" width="0.1" height="2.6" depth="0.08" color="#c0392b" material="metalness: 0.9"></a-box>
+            <a-box position="-1.2 1.3 2.3" width="0.1" height="2.6" depth="0.08" color="#c0392b" material="metalness: 0.9"></a-box>
+            <a-box position="-0.6 1.3 2.3" width="0.1" height="2.6" depth="0.08" color="#c0392b" material="metalness: 0.9"></a-box>
+            <a-box position="0.0 1.3 2.3" width="0.1" height="2.6" depth="0.08" color="#c0392b" material="metalness: 0.9"></a-box>
+            <a-box position="0.6 1.3 2.3" width="0.1" height="2.6" depth="0.08" color="#c0392b" material="metalness: 0.9"></a-box>
+            <a-box position="1.2 1.3 2.3" width="0.1" height="2.6" depth="0.08" color="#c0392b" material="metalness: 0.9"></a-box>
+            <a-box position="1.8 1.3 2.3" width="0.1" height="2.6" depth="0.08" color="#c0392b" material="metalness: 0.9"></a-box>
+            <a-box position="2.4 1.3 2.3" width="0.1" height="2.6" depth="0.08" color="#c0392b" material="metalness: 0.9"></a-box>
+            <a-box position="3.0 1.3 2.3" width="0.1" height="2.6" depth="0.08" color="#c0392b" material="metalness: 0.9"></a-box>
+            <a-box position="3.6 1.3 2.3" width="0.1" height="2.6" depth="0.08" color="#c0392b" material="metalness: 0.9"></a-box>
+            <a-box position="4.2 1.3 2.3" width="0.1" height="2.6" depth="0.08" color="#c0392b" material="metalness: 0.9"></a-box>
+        </a-entity>
+
+        <!-- PASO 3: JAMBAS -->
+        <a-entity id="step3" visible="false">
+            <a-box position="-4.48 1.3 -1.75" width="0.1" height="2.6" depth="0.12" 
+                   color="#a94442" material="metalness: 0.85"></a-box>
+            <a-box position="-4.48 1.3 1.75" width="0.1" height="2.6" depth="0.12" 
+                   color="#a94442" material="metalness: 0.85"></a-box>
+            <a-box position="4.48 1.3 -1.75" width="0.1" height="2.6" depth="0.12" 
+                   color="#a94442" material="metalness: 0.85"></a-box>
+            <a-box position="4.48 1.3 1.75" width="0.1" height="2.6" depth="0.12" 
+                   color="#a94442" material="metalness: 0.85"></a-box>
+        </a-entity>
+
+        <!-- PASO 4: DINTELES RETICULADOS -->
+        <a-entity id="step4" visible="false">
+            <a-box position="-4.48 2.5 0" width="0.1" height="0.035" depth="4" 
+                   color="#8e44ad" material="metalness: 0.9"></a-box>
+            <a-box position="-4.48 2.25 0" width="0.1" height="0.035" depth="4" 
+                   color="#8e44ad" material="metalness: 0.9"></a-box>
+            <a-box position="-4.48 2.375 -1.5" width="0.1" height="0.25" depth="0.04" rotation="0 0 -60"
+                   color="#607d8b" material="metalness: 0.8"></a-box>
+            <a-box position="-4.48 2.375 -0.5" width="0.1" height="0.25" depth="0.04" rotation="0 0 60"
+                   color="#607d8b" material="metalness: 0.8"></a-box>
+            <a-box position="-4.48 2.375 0.5" width="0.1" height="0.25" depth="0.04" rotation="0 0 -60"
+                   color="#607d8b" material="metalness: 0.8"></a-box>
+            <a-box position="-4.48 2.375 1.5" width="0.1" height="0.25" depth="0.04" rotation="0 0 60"
+                   color="#607d8b" material="metalness: 0.8"></a-box>
+            <a-box position="4.48 2.5 0" width="0.1" height="0.035" depth="4" 
+                   color="#8e44ad" material="metalness: 0.9"></a-box>
+            <a-box position="4.48 2.25 0" width="0.1" height="0.035" depth="4" 
+                   color="#8e44ad" material="metalness: 0.9"></a-box>
+            <a-box position="4.48 2.375 -1.5" width="0.1" height="0.25" depth="0.04" rotation="0 0 -60"
+                   color="#607d8b" material="metalness: 0.8"></a-box>
+            <a-box position="4.48 2.375 -0.5" width="0.1" height="0.25" depth="0.04" rotation="0 0 60"
+                   color="#607d8b" material="metalness: 0.8"></a-box>
+            <a-box position="4.48 2.375 0.5" width="0.1" height="0.25" depth="0.04" rotation="0 0 -60"
+                   color="#607d8b" material="metalness: 0.8"></a-box>
+            <a-box position="4.48 2.375 1.5" width="0.1" height="0.25" depth="0.04" rotation="0 0 60"
+                   color="#607d8b" material="metalness: 0.8"></a-box>
+        </a-entity>
+
+        <!-- PASO 5: VIGA CUMBRERA SIMPLE -->
+        <a-entity id="step5" visible="false">
+            <a-box position="0 2.7 0" width="0.15" height="0.04" depth="4.6" 
+                   color="#f39c12" material="metalness: 0.9"></a-box>
+            <a-entity line="start: 0,2.7,-2.3; end: 0,1.3,-2.3; color: #ffd700; opacity: 0.6"></a-entity>
+            <a-entity line="start: 0,2.7,2.3; end: 0,1.3,2.3; color: #ffd700; opacity: 0.6"></a-entity>
+        </a-entity>
+
+        <!-- PASO 6: CORREAS -->
+        <a-entity id="step6" visible="false">
+            <a-box position="0 2.65 -2.3" width="9" height="0.15" depth="0.04" color="#16a085" material="metalness: 0.7"></a-box>
+            <a-box position="0 2.65 -1.8" width="9" height="0.15" depth="0.04" color="#16a085" material="metalness: 0.7"></a-box>
+            <a-box position="0 2.65 -1.3" width="9" height="0.15" depth="0.04" color="#16a085" material="metalness: 0.7"></a-box>
+            <a-box position="0 2.65 -0.8" width="9" height="0.15" depth="0.04" color="#16a085" material="metalness: 0.7"></a-box>
+            <a-box position="0 2.65 -0.3" width="9" height="0.15" depth="0.04" color="#16a085" material="metalness: 0.7"></a-box>
+            <a-box position="0 2.65 0.2" width="9" height="0.15" depth="0.04" color="#16a085" material="metalness: 0.7"></a-box>
+            <a-box position="0 2.65 0.7" width="9" height="0.15" depth="0.04" color="#16a085" material="metalness: 0.7"></a-box>
+            <a-box position="0 2.65 1.2" width="9" height="0.15" depth="0.04" color="#16a085" material="metalness: 0.7"></a-box>
+            <a-box position="0 2.65 1.7" width="9" height="0.15" depth="0.04" color="#16a085" material="metalness: 0.7"></a-box>
+            <a-box position="0 2.65 2.3" width="9" height="0.15" depth="0.04" color="#16a085" material="metalness: 0.7"></a-box>
+        </a-entity>
+
+        <!-- PASO 7: ALEROS -->
+        <a-entity id="step7" visible="false">
+            <a-box position="-5.1 2.65 -2.0" width="1.2" height="0.1" depth="0.04" color="#27ae60" material="metalness: 0.8" rotation="0 90 0"></a-box>
+            <a-box position="-5.1 2.65 -1.5" width="1.2" height="0.1" depth="0.04" color="#27ae60" material="metalness: 0.8" rotation="0 90 0"></a-box>
+            <a-box position="-5.1 2.65 -1.0" width="1.2" height="0.1" depth="0.04" color="#27ae60" material="metalness: 0.8" rotation="0 90 0"></a-box>
+            <a-box position="-5.1 2.65 -0.5" width="1.2" height="0.1" depth="0.04" color="#27ae60" material="metalness: 0.8" rotation="0 90 0"></a-box>
+            <a-box position="-5.1 2.65 0.0" width="1.2" height="0.1" depth="0.04" color="#27ae60" material="metalness: 0.8" rotation="0 90 0"></a-box>
+            <a-box position="-5.1 2.65 0.5" width="1.2" height="0.1" depth="0.04" color="#27ae60" material="metalness: 0.8" rotation="0 90 0"></a-box>
+            <a-box position="-5.1 2.65 1.0" width="1.2" height="0.1" depth="0.04" color="#27ae60" material="metalness: 0.8" rotation="0 90 0"></a-box>
+            <a-box position="-5.1 2.65 1.5" width="1.2" height="0.1" depth="0.04" color="#27ae60" material="metalness: 0.8" rotation="0 90 0"></a-box>
+            <a-box position="-5.1 2.65 2.0" width="1.2" height="0.1" depth="0.04" color="#27ae60" material="metalness: 0.8" rotation="0 90 0"></a-box>
+            <a-box position="5.1 2.65 -2.0" width="1.2" height="0.1" depth="0.04" color="#27ae60" material="metalness: 0.8" rotation="0 90 0"></a-box>
+            <a-box position="5.1 2.65 -1.5" width="1.2" height="0.1" depth="0.04" color="#27ae60" material="metalness: 0.8" rotation="0 90 0"></a-box>
+            <a-box position="5.1 2.65 -1.0" width="1.2" height="0.1" depth="0.04" color="#27ae60" material="metalness: 0.8" rotation="0 90 0"></a-box>
+            <a-box position="5.1 2.65 -0.5" width="1.2" height="0.1" depth="0.04" color="#27ae60" material="metalness: 0.8" rotation="0 90 0"></a-box>
+            <a-box position="5.1 2.65 0.0" width="1.2" height="0.1" depth="0.04" color="#27ae60" material="metalness: 0.8" rotation="0 90 0"></a-box>
+            <a-box position="5.1 2.65 0.5" width="1.2" height="0.1" depth="0.04" color="#27ae60" material="metalness: 0.8" rotation="0 90 0"></a-box>
+            <a-box position="5.1 2.65 1.0" width="1.2" height="0.1" depth="0.04" color="#27ae60" material="metalness: 0.8" rotation="0 90 0"></a-box>
+            <a-box position="5.1 2.65 1.5" width="1.2" height="0.1" depth="0.04" color="#27ae60" material="metalness: 0.8" rotation="0 90 0"></a-box>
+            <a-box position="5.1 2.65 2.0" width="1.2" height="0.1" depth="0.04" color="#27ae60" material="metalness: 0.8" rotation="0 90 0"></a-box>
+        </a-entity>
+
+        <!-- PASO 8: RETICULADOS -->
+        <a-entity id="step8" visible="false">
+            <a-box position="-3.4 1.3 -2.3" width="1.8" height="0.05" depth="0.05" rotation="0 0 -45" color="#607d8b" material="metalness: 0.8"></a-box>
+            <a-box position="-3.4 1.3 -2.3" width="1.8" height="0.05" depth="0.05" rotation="0 0 45" color="#607d8b" material="metalness: 0.8"></a-box>
+            <a-box position="3.4 1.3 -2.3" width="1.8" height="0.05" depth="0.05" rotation="0 0 -45" color="#607d8b" material="metalness: 0.8"></a-box>
+            <a-box position="3.4 1.3 -2.3" width="1.8" height="0.05" depth="0.05" rotation="0 0 45" color="#607d8b" material="metalness: 0.8"></a-box>
+            <a-box position="-3.4 1.3 2.3" width="1.8" height="0.05" depth="0.05" rotation="0 0 -45" color="#607d8b" material="metalness: 0.8"></a-box>
+            <a-box position="-3.4 1.3 2.3" width="1.8" height="0.05" depth="0.05" rotation="0 0 45" color="#607d8b" material="metalness: 0.8"></a-box>
+            <a-box position="3.4 1.3 2.3" width="1.8" height="0.05" depth="0.05" rotation="0 0 -45" color="#607d8b" material="metalness: 0.8"></a-box>
+            <a-box position="3.4 1.3 2.3" width="1.8" height="0.05" depth="0.05" rotation="0 0 45" color="#607d8b" material="metalness: 0.8"></a-box>
+        </a-entity>
+
+        <!-- PASO 9: VENTANAS -->
+        <a-entity id="step9" visible="false">
+            <a-box position="-4.45 1.5 0" width="0.1" height="2.0" depth="3.5" 
+                   color="#64b5f6" material="metalness: 0.7; transparent: true; opacity: 0.5"></a-box>
+            <a-box position="4.45 1.5 0" width="0.1" height="2.0" depth="3.5" 
+                   color="#42a5f5" material="metalness: 0.7; transparent: true; opacity: 0.5"></a-box>
+        </a-entity>
+
+        <!-- PASO 10: TECHO -->
+        <a-entity id="step10" visible="false">
+            <a-box position="-1.25 2.82 0" width="4.7" height="0.015" depth="4.6" rotation="0 0 3.4"
+                   color="#ECEFF1" material="metalness: 0.95; roughness: 0.05; side: double; opacity: 1.0"></a-box>
+            <a-box position="1.25 2.82 0" width="4.7" height="0.015" depth="4.6" rotation="0 0 -3.4"
+                   color="#ECEFF1" material="metalness: 0.95; roughness: 0.05; side: double; opacity: 1.0"></a-box>
+            <a-box position="0 2.93 0" width="0.4" height="0.02" depth="4.7" 
+                   color="#B0BEC5" material="metalness: 0.95; roughness: 0.1"></a-box>
+            <a-box position="-0.5 2.83 0" width="0.08" height="0.018" depth="4.6" rotation="0 0 3.4" color="#CFD8DC" material="metalness: 0.95"></a-box>
+            <a-box position="-1.0 2.83 0" width="0.08" height="0.018" depth="4.6" rotation="0 0 3.4" color="#CFD8DC" material="metalness: 0.95"></a-box>
+            <a-box position="-1.5 2.83 0" width="0.08" height="0.018" depth="4.6" rotation="0 0 3.4" color="#CFD8DC" material="metalness: 0.95"></a-box>
+            <a-box position="-2.0 2.83 0" width="0.08" height="0.018" depth="4.6" rotation="0 0 3.4" color="#CFD8DC" material="metalness: 0.95"></a-box>
+            <a-box position="0.5 2.83 0" width="0.08" height="0.018" depth="4.6" rotation="0 0 -3.4" color="#CFD8DC" material="metalness: 0.95"></a-box>
+            <a-box position="1.0 2.83 0" width="0.08" height="0.018" depth="4.6" rotation="0 0 -3.4" color="#CFD8DC" material="metalness: 0.95"></a-box>
+            <a-box position="1.5 2.83 0" width="0.08" height="0.018" depth="4.6" rotation="0 0 -3.4" color="#CFD8DC" material="metalness: 0.95"></a-box>
+            <a-box position="2.0 2.83 0" width="0.08" height="0.018" depth="4.6" rotation="0 0 -3.4" color="#CFD8DC" material="metalness: 0.95"></a-box>
+        </a-entity>
+
+        <a-camera id="camera" position="10 5 10" 
+                  look-controls="enabled: true" 
+                  wasd-controls="enabled: true; acceleration: 40">
+        </a-camera>
+        
+        <a-text id="floating-info" position="0 5.5 0" 
+               value="🏗️ SIN TANQUE\nMontantes Continuos\n$7,391,367" 
+               color="#4CAF50" align="center" scale="0.9 0.9 0.9"
+               animation="property: rotation; to: 0 360 0; loop: true; dur: 30000"></a-text>
+    </a-scene>
+
+    <script>
+        let currentStep = 1;
+        const maxSteps = 10;
+        let autoPlay = false;
+        let autoInterval;
+        let currentZoom = 10;
+
+        const stepData = [
+            {
+                title: "PASO 1: Soleras Perímetro", 
+                description: "Marco guía horizontal donde se insertan montantes verticales", 
+                materials: [
+                    {name: "PGU 100×35×1.6mm", qty: "18 barras × 6m = 108 metros totales", type: "critical", specs: "• 12 barras → Soleras (perímetro 27.2m)\n• 6 barras → Dinteles reticulados\n• Instalación: Continuo en base + superior"}
+                ], 
+                cost: 769671
+            },
+            {
+                title: "PASO 2: Montantes Normales", 
+                description: "Columnas verticales estructurales - CONTINUOS SIN HUECOS", 
+                materials: [
+                    {name: "PGC 100×40×0.9mm", qty: "14 barras × 6m = 84m = 28 montantes", type: "standard", specs: "• Largo: 2.6m cada uno\n• Separación: Cada 60cm aprox\n• Muros 9m: 15 montantes por lado\n• Total: 30 columnas CONTINUAS\n• ✅ Sin huecos centrales"}
+                ], 
+                cost: 410148
+            },
+            {
+                title: "PASO 3: Jambas Ventanas", 
+                description: "Refuerzos laterales para ventanas 3.5×2.0m", 
+                materials: [
+                    {name: "PGC 100×40×1.25mm (Jambas)", qty: "4 barras × 6m = 24m = 8 jambas", type: "important", specs: "• Largo: 2.6m cada jamba\n• 2 ventanas × 4 jambas = 8 total\n• Función: Soporte lateral ventanas"}
+                ], 
+                cost: 193560
+            },
+            {
+                title: "PASO 4: 🔷 Dinteles Reticulados", 
+                description: "Sistema viga celosía PGU - Unifica materiales", 
+                materials: [
+                    {name: "PGU 100×35×1.6mm (Dinteles)", qty: "6 barras × 6m = 32m = 4 dinteles", type: "important", specs: "• Cordón superior: 4m cada uno\n• Cordón inferior: 4m cada uno\n• Diagonales flejes: Cada 50cm\n• Altura: 25cm entre cordones\n• Factor seguridad: 2.1×"}
+                ], 
+                cost: 290340
+            },
+            {
+                title: "PASO 5: Viga Cumbrera Simple", 
+                description: "Apoyo central para correas - Sistema ligero sin tanque", 
+                materials: [
+                    {name: "PGC 150×40×1.25mm (Cumbrera)", qty: "14 barras × 6m = 84m TOTAL", type: "critical", specs: "• 2 barras → Cumbrera 4.6m transversal\n• 12 barras → Correas longitudinales\n• Sistema unificado mismo perfil\n• Capacidad: 800kg (correas+techo)"}
+                ], 
+                cost: 97118
+            },
+            {
+                title: "PASO 6: Correas Longitudinales", 
+                description: "Vigas que sostienen chapas techo - Cada 50cm", 
+                materials: [
+                    {name: "PGC 150×40×1.25mm (Correas)", qty: "12 barras restantes = 10 correas", type: "important", specs: "• Largo: 9m cada correa\n• Separación: Cada 50cm\n• 10 correas en 4.6m ancho\n• Apoyo: Muros + cumbrera central"}
+                ], 
+                cost: 582705
+            },
+            {
+                title: "PASO 7: Aleros Protectores", 
+                description: "Voladizos 70cm protegen ventanas de lluvia", 
+                materials: [
+                    {name: "PGC 100×40×1.25mm (Ménsulas)", qty: "5 barras × 6m = 30m = 18 ménsulas", type: "standard", specs: "• Largo: 1.2m cada ménsula\n• Voladizo: 70cm efectivos\n• 2 lados × 9 ménsulas = 18 total\n• Separación: Cada 50cm"}
+                ], 
+                cost: 241950
+            },
+            {
+                title: "PASO 8: ⚡ Arriostramientos", 
+                description: "Cruces San Andrés + Diagonales dinteles", 
+                materials: [
+                    {name: "Flejes galvanizados 50×0.94mm", qty: "3 rollos × 50m = 150 metros totales", type: "important", specs: "• Cruces San Andrés: 8 × 8m = 64m\n• Diagonales dinteles: 4 dinteles × 9m = 36m\n• Refuerzos adicionales: 50m\n• ⚠️ Idealmente 4 rollos (200m)"}
+                ], 
+                cost: 325526
+            },
+            {
+                title: "PASO 9: 🪟 Ventanas DVH", 
+                description: "2 ventanas grandes aluminio doble vidrio", 
+                materials: [
+                    {name: "Ventanas DVH 3.50×2.0m", qty: "2 unidades = 14m² vidrio total", type: "standard", specs: "• Ubicación: Muros cortos 4.6m\n• Este + Oeste (ventilación cruzada)\n• Marco aluminio reforzado\n• Doble vidriado hermético (DVH)"}
+                ], 
+                cost: 1117482
+            },
+            {
+                title: "PASO 10: ✅ Techo Cincalum", 
+                description: "Cubierta completa + Cobertor cumbrera", 
+                materials: [
+                    {name: "Chapas Cincalum C25", qty: "11 chapas × 6.6m² = 43.2m² (1 extra)", type: "standard", specs: "• Dimensión: 6m × 1.1m cada chapa\n• Pendiente: 6% (dos aguas)\n• Traslapes: 15cm longitudinal\n• Tornillos: 12×1\" con arandela EPDM"},
+                    {name: "Cobertor cumbrera", qty: "2 piezas × 2.44m = 4.88m (cubre 4.6m)", type: "standard", specs: "• Ancho desarrollo: 400mm\n• Material: Galvanizado gris\n• Función: Impermeabiliza unión faldones"}
+                ], 
+                cost: 1228448
+            }
+        ];
+
+        function updateUI() {
+            const step = stepData[currentStep - 1];
+            document.getElementById('step-title').textContent = step.title;
+            document.getElementById('step-description').textContent = step.description;
+            
+            const materialsDiv = document.getElementById('current-materials');
+            materialsDiv.innerHTML = '';
+            step.materials.forEach(m => {
+                const div = document.createElement('div');
+                div.className = `material-item ${m.type}`;
+                let html = `<strong>${m.name}</strong><br>${m.qty}`;
+                if (m.specs) {
+                    html += `<div class="tech-specs">${m.specs}</div>`;
+                }
+                div.innerHTML = html;
+                materialsDiv.appendChild(div);
+            });
+            
+            const totalCost = stepData.slice(0, currentStep).reduce((sum, s) => sum + s.cost, 0);
+            document.getElementById('cost-display').textContent = `$${totalCost.toLocaleString()}`;
+            document.getElementById('progress-text').textContent = `Paso ${currentStep}/10 - Total: $${totalCost.toLocaleString()}`;
+            document.getElementById('progress').style.width = `${currentStep/maxSteps*100}%`;
+            
+            for (let i = 1; i <= maxSteps; i++) {
+                const el = document.getElementById(`step${i}`);
+                if (el) el.setAttribute('visible', i <= currentStep);
+            }
+            
+            document.getElementById('prev-btn').disabled = currentStep === 1;
+            document.getElementById('next-btn').disabled = currentStep === maxSteps;
+        }
+
+        function nextStep() { 
+            if (currentStep < maxSteps) { 
+                currentStep++; 
+                updateUI(); 
+            } 
+        }
+        
+        function previousStep() { 
+            if (currentStep > 1) { 
+                currentStep--; 
+                updateUI(); 
+            } 
+        }
+        
+        function toggleAuto() {
+            const btn = document.getElementById('auto-btn');
+            if (autoPlay) {
+                clearInterval(autoInterval);
+                btn.textContent = '▶️ Auto';
+                autoPlay = false;
+            } else {
+                startAutoPlay();
+                btn.textContent = '⏸️ Pausar';
+                autoPlay = true;
+            }
+        }
+
+        function startAutoPlay() {
+            autoInterval = setInterval(() => {
+                if (currentStep < maxSteps) nextStep();
+                else { currentStep = 1; updateUI(); }
+            }, 5000);
+        }
+
+        function togglePanel() {
+            const panel = document.getElementById('ui-panel');
+            const scene = document.getElementById('scene');
+            panel.classList.toggle('hidden');
+            scene.classList.toggle('full-width');
+        }
+
+        function zoomIn() {
+            currentZoom = Math.max(3, currentZoom - 2);
+            updateCamera();
+        }
+
+        function zoomOut() {
+            currentZoom = Math.min(20, currentZoom + 2);
+            updateCamera();
+        }
+
+        function resetView() {
+            currentZoom = 10;
+            updateCamera();
+        }
+
+        function viewTop() {
+            const camera = document.querySelector('#camera');
+            camera.setAttribute('position', `0 ${currentZoom*1.5} 0`);
+            camera.setAttribute('rotation', '-90 0 0');
+        }
+
+        function viewBottom() {
+            const camera = document.querySelector('#camera');
+            camera.setAttribute('position', `0 -${currentZoom} 0`);
+            camera.setAttribute('rotation', '90 0 0');
+        }
+
+        function viewFront() {
+            const camera = document.querySelector('#camera');
+            camera.setAttribute('position', `${currentZoom} ${currentZoom*0.5} ${currentZoom}`);
+            camera.setAttribute('rotation', '0 0 0');
+        }
+
+        function viewLeft() {
+            const camera = document.querySelector('#camera');
+            camera.setAttribute('position', `-${currentZoom} ${currentZoom*0.5} 0`);
+            camera.setAttribute('rotation', '0 90 0');
+        }
+
+        function viewRight() {
+            const camera = document.querySelector('#camera');
+            camera.setAttribute('position', `${currentZoom} ${currentZoom*0.5} 0`);
+            camera.setAttribute('rotation', '0 -90 0');
+        }
+
+        function updateCamera() {
+            const camera = document.querySelector('#camera');
+            const angle = Math.PI/4;
+            const x = currentZoom * Math.cos(angle);
+            const z = currentZoom * Math.sin(angle);
+            camera.setAttribute('position', `${x} ${currentZoom*0.5} ${z}`);
+            camera.setAttribute('rotation', '0 0 0');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateUI();
+            
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowLeft') previousStep();
+                else if (e.key === 'ArrowRight') nextStep();
+                else if (e.key === ' ') { e.preventDefault(); toggleAuto(); }
+                else if (e.key === '+' || e.key === '=') zoomIn();
+                else if (e.key === '-') zoomOut();
+                else if (e.key === 'r' || e.key === 'R') resetView();
+                else if (e.key === 'h' || e.key === 'H') togglePanel();
+            });
+        });
+    </script>
+</body>
+</html>
