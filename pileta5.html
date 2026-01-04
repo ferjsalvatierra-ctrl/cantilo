@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Esquema Gabinete Piscina - Sistema V3V</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        header p {
+            color: #4ecdc4;
+            font-size: 0.95rem;
+        }
+
+        /* ============ GABINETE ============ */
+        .esquema-wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .gabinete-outer {
+            position: relative;
+        }
+
+        .gabinete {
+            width: 700px;
+            height: 600px;
+            background: #2a2a2a;
+            border-radius: 20px;
+            position: relative;
+            box-shadow: 
+                inset 0 0 80px rgba(0,0,0,0.6),
+                0 10px 40px rgba(0,0,0,0.5),
+                0 0 0 6px #1a1a1a,
+                0 0 0 10px #333;
+        }
+
+        .gabinete-label {
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 11px;
+            color: #666;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* ============ BOMBA ============ */
+        .bomba {
+            position: absolute;
+            top: 60px;
+            left: 50px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .bomba-motor {
+            width: 90px;
+            height: 70px;
+            background: linear-gradient(145deg, #3b82f6, #1d4ed8);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 
+                4px 4px 15px rgba(0,0,0,0.4),
+                inset 0 2px 4px rgba(255,255,255,0.2);
+            position: relative;
+        }
+
+        .bomba-motor span {
+            color: rgba(255,255,255,0.9);
+            font-weight: bold;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+
+        .bomba-cuerpo {
+            width: 50px;
+            height: 60px;
+            background: linear-gradient(180deg, #2d2d2d, #1a1a1a);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .canasto {
+            width: 65px;
+            height: 65px;
+            background: radial-gradient(circle at 30% 30%, 
+                rgba(200, 230, 255, 0.4), 
+                rgba(150, 200, 255, 0.2));
+            border: 4px solid #3d3d3d;
+            border-radius: 50%;
+            box-shadow: 
+                inset 0 0 20px rgba(100, 180, 255, 0.3),
+                0 0 10px rgba(100, 180, 255, 0.1);
+            position: relative;
+        }
+
+        .canasto::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 35px;
+            height: 35px;
+            border: 2px dashed rgba(255,255,255,0.2);
+            border-radius: 50%;
+        }
+
+        .bomba-label {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 11px;
+            color: #3b82f6;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        /* ============ FILTRO ============ */
+        .filtro {
+            position: absolute;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .filtro-tanque {
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle at 35% 35%, 
+                #f5e6c8, #d4c4a8, #c4b498);
+            border-radius: 50%;
+            position: relative;
+            box-shadow: 
+                6px 6px 25px rgba(0,0,0,0.5),
+                inset -15px -15px 30px rgba(0,0,0,0.2),
+                inset 8px 8px 20px rgba(255,255,255,0.3);
+        }
+
+        .valvula-selectora {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90px;
+            height: 90px;
+            background: radial-gradient(circle at 35% 35%, #3d3d3d, #1a1a1a);
+            border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        .valvula-selectora::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 18px;
+            height: 18px;
+            background: #2d2d2d;
+            border: 3px solid #444;
+            border-radius: 50%;
+        }
+
+        .manija {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 50px;
+            height: 10px;
+            background: linear-gradient(180deg, #444, #222);
+            transform-origin: left center;
+            transform: translate(0, -50%) rotate(-45deg);
+            border-radius: 5px;
+        }
+
+        /* Bocas del filtro */
+        .boca {
+            position: absolute;
+            width: 28px;
+            height: 28px;
+            background: #1a1a1a;
+            border: 3px solid #333;
+            border-radius: 50%;
+        }
+
+        .boca-pump {
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .boca-return {
+            right: -8px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .boca-waste {
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .boca-label {
+            position: absolute;
+            font-size: 8px;
+            color: #888;
+            font-weight: bold;
+        }
+
+        .boca-pump .boca-label { top: -16px; left: 50%; transform: translateX(-50%); }
+        .boca-return .boca-label { right: -45px; top: 50%; transform: translateY(-50%); }
+        .boca-waste .boca-label { bottom: -16px; left: 50%; transform: translateX(-50%); }
+
+        .filtro-label {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 11px;
+            color: #c4b498;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        /* ============ CAÑOS ============ */
+        .cano {
+            position: absolute;
+            background: linear-gradient(180deg, #888, #666, #888);
+            box-shadow: 
+                inset 0 2px 3px rgba(255,255,255,0.3),
+                inset 0 -2px 3px rgba(0,0,0,0.3),
+                2px 2px 6px rgba(0,0,0,0.3);
+        }
+
+        .cano-h {
+            height: 18px;
+            border-radius: 9px;
+        }
+
+        .cano-v {
+            width: 18px;
+            border-radius: 9px;
+        }
+
+        .cano-caldera {
+            background: linear-gradient(180deg, #a88, #866, #a88);
+        }
+
+        /* ============ VÁLVULAS ESFÉRICAS ============ */
+        .valvula {
+            position: absolute;
+            width: 36px;
+            height: 36px;
+            background: radial-gradient(circle at 30% 30%, #ef4444, #b91c1c);
+            border-radius: 50%;
+            border: 3px solid #7f1d1d;
+            box-shadow: 
+                3px 3px 10px rgba(0,0,0,0.4),
+                inset 0 2px 4px rgba(255,255,255,0.3);
+            z-index: 10;
+        }
+
+        .valvula::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(45deg);
+            width: 14px;
+            height: 4px;
+            background: #fff;
+            border-radius: 2px;
+        }
+
+        .valvula-label {
+            position: absolute;
+            font-size: 9px;
+            font-weight: bold;
+            color: #fff;
+            background: rgba(185, 28, 28, 0.9);
+            padding: 2px 6px;
+            border-radius: 3px;
+            white-space: nowrap;
+            z-index: 11;
+        }
+
+        /* ============ VÁLVULA 3 VÍAS ============ */
+        .v3v {
+            position: absolute;
+            width: 55px;
+            height: 55px;
+            background: radial-gradient(circle at 30% 30%, #22c55e, #15803d);
+            border-radius: 50%;
+            border: 4px solid #166534;
+            box-shadow: 
+                4px 4px 15px rgba(0,0,0,0.4),
+                0 0 25px rgba(34, 197, 94, 0.4),
+                inset 0 3px 6px rgba(255,255,255,0.3);
+            z-index: 15;
+            animation: zigbee-glow 2s ease-in-out infinite;
+        }
+
+        .v3v::before {
+            content: '3V';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 14px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .v3v-label {
+            position: absolute;
+            font-size: 9px;
+            font-weight: bold;
+            color: #22c55e;
+            background: rgba(0,0,0,0.8);
+            padding: 3px 8px;
+            border-radius: 4px;
+            white-space: nowrap;
+            border: 1px solid #22c55e;
+            z-index: 16;
+        }
+
+        .zigbee-icon {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 20px;
+            height: 20px;
+            background: #3b82f6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+        }
+
+        @keyframes zigbee-glow {
+            0%, 100% {
+                box-shadow: 
+                    4px 4px 15px rgba(0,0,0,0.4),
+                    0 0 25px rgba(34, 197, 94, 0.4);
+            }
+            50% {
+                box-shadow: 
+                    4px 4px 15px rgba(0,0,0,0.4),
+                    0 0 40px rgba(34, 197, 94, 0.7),
+                    0 0 60px rgba(34, 197, 94, 0.3);
+            }
+        }
+
+        /* ============ PASAMUROS ============ */
+        .pasamuros-panel {
+            position: absolute;
+            right: -130px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .pasamuro {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pasamuro-circulo {
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(145deg, #444, #222);
+            border-radius: 50%;
+            border: 3px solid #555;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pasamuro-circulo::after {
+            content: '';
+            width: 15px;
+            height: 15px;
+            background: #111;
+            border-radius: 50%;
+        }
+
+        .pasamuro-info {
+            background: rgba(255,255,255,0.05);
+            padding: 6px 10px;
+            border-radius: 6px;
+            border: 1px solid rgba(255,255,255,0.1);
+            min-width: 100px;
+        }
+
+        .pasamuro-info .nombre {
+            font-size: 11px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .pasamuro-info .detalle {
+            font-size: 9px;
+            color: #888;
+        }
+
+        .pasamuro-info.entrada { border-left: 3px solid #4ecdc4; }
+        .pasamuro-info.salida { border-left: 3px solid #f97316; }
+
+        /* ============ FLECHAS ============ */
+        .flecha {
+            position: absolute;
+            font-size: 14px;
+            color: #4ecdc4;
+            text-shadow: 0 0 8px rgba(78, 205, 196, 0.6);
+            z-index: 20;
+        }
+
+        .flecha-caliente {
+            color: #f97316;
+            text-shadow: 0 0 8px rgba(249, 115, 22, 0.6);
+        }
+
+        /* ============ CONEXIONES ============ */
+        .conexion-label {
+            position: absolute;
+            font-size: 10px;
+            color: #666;
+            background: rgba(0,0,0,0.5);
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        /* ============ LEYENDA ============ */
+        .leyenda {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .leyenda-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            background: rgba(255,255,255,0.05);
+            padding: 6px 12px;
+            border-radius: 20px;
+        }
+
+        .leyenda-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+        }
+
+        /* ============ EXTERIOR BOX ============ */
+        .exterior-box {
+            background: rgba(255,255,255,0.03);
+            border: 2px dashed #444;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .exterior-box h3 {
+            color: #f97316;
+            font-size: 14px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .exterior-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .exterior-item {
+            text-align: center;
+            padding: 15px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            min-width: 120px;
+        }
+
+        .exterior-item .icon {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .exterior-item .name {
+            font-size: 12px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .exterior-item .desc {
+            font-size: 10px;
+            color: #888;
+            margin-top: 4px;
+        }
+
+        .exterior-arrow {
+            font-size: 24px;
+            color: #666;
+        }
+
+        /* ============ MODOS DE OPERACIÓN ============ */
+        .modos-section {
+            margin-top: 40px;
+        }
+
+        .modos-section h2 {
+            text-align: center;
+            color: #4ecdc4;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .modos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .modo-card {
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            padding: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .modo-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(78, 205, 196, 0.3);
+        }
+
+        .modo-card h4 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .modo-card h4 .emoji {
+            font-size: 20px;
+        }
+
+        .modo-card .comando {
+            background: rgba(78, 205, 196, 0.1);
+            color: #4ecdc4;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            margin-bottom: 12px;
+            font-style: italic;
+        }
+
+        .modo-estados {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .modo-estado {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            padding: 4px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .modo-estado:last-child {
+            border-bottom: none;
+        }
+
+        .estado-on {
+            color: #22c55e;
+            font-weight: bold;
+        }
+
+        .estado-off {
+            color: #666;
+        }
+
+        .estado-pos {
+            color: #f97316;
+            font-weight: bold;
+        }
+
+        /* ============ MATERIALES ============ */
+        .materiales-section {
+            margin-top: 40px;
+        }
+
+        .materiales-section h2 {
+            text-align: center;
+            color: #4ecdc4;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .materiales-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .material-card {
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            padding: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .material-card h3 {
+            color: #4ecdc4;
+            font-size: 13px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .material-card ul {
+            list-style: none;
+        }
+
+        .material-card li {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 12px;
+        }
+
+        .material-card li:last-child {
+            border-bottom: none;
+        }
+
+        .cantidad {
+            background: #4ecdc4;
+            color: #1a1a2e;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 10px;
+        }
+
+        /* ============ NOTAS ============ */
+        .nota-importante {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(34, 197, 94, 0.1));
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 30px;
+        }
+
+        .nota-importante h3 {
+            color: #22c55e;
+            font-size: 13px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nota-importante ul {
+            list-style: none;
+            font-size: 12px;
+        }
+
+        .nota-importante li {
+            padding: 4px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .nota-importante li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #22c55e;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #444;
+            font-size: 11px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏊 Esquema Gabinete Piscina</h1>
+            <p>Sistema con Válvulas 3 Vías • Automatización Zigbee • Mínima complejidad</p>
+        </header>
+
+        <!-- ESQUEMA DEL GABINETE -->
+        <div class="esquema-wrapper">
+            <div class="gabinete-outer">
+                <div class="gabinete">
+                    <div class="gabinete-label">FONDO DEL GABINETE (PARED TRASERA)</div>
+
+                    <!-- BOMBA GAMMA -->
+                    <div class="bomba">
+                        <div class="bomba-motor"><span>GAMMA</span></div>
+                        <div class="bomba-cuerpo"></div>
+                        <div class="canasto"></div>
+                        <div class="bomba-label">BOMBA (Girada)</div>
+                    </div>
+
+                    <!-- FILTRO DE ARENA -->
+                    <div class="filtro">
+                        <div class="filtro-tanque">
+                            <div class="valvula-selectora">
+                                <div class="manija"></div>
+                            </div>
+                            <div class="boca boca-pump"><span class="boca-label">PUMP</span></div>
+                            <div class="boca boca-return"><span class="boca-label">RETURN</span></div>
+                            <div class="boca boca-waste"><span class="boca-label">WASTE</span></div>
+                        </div>
+                        <div class="filtro-label">FILTRO (Válvula 6 vías)</div>
+                    </div>
+
+                    <!-- ========== CAÑOS ========== -->
+
+                    <!-- Succión: Skimmer → V.Skimmer → Bomba -->
+                    <!-- Horizontal desde pared derecha -->
+                    <div class="cano cano-h" style="top: 95px; right: 0; width: 450px;"></div>
+                    <!-- Codo baja -->
+                    <div class="cano cano-v" style="top: 95px; left: 232px; height: 65px;"></div>
+                    <!-- Horizontal a canasto -->
+                    <div class="cano cano-h" style="top: 150px; left: 205px; width: 40px;"></div>
+
+                    <!-- Válvula Skimmer -->
+                    <div class="valvula" style="top: 77px; right: 180px;">
+                        <span class="valvula-label" style="bottom: -22px; left: 50%; transform: translateX(-50%);">V. SKIMMER</span>
+                    </div>
+
+                    <!-- Impulsión: Bomba → Filtro (PUMP) -->
+                    <!-- Sale de bomba hacia arriba -->
+                    <div class="cano cano-v" style="top: 40px; left: 115px; height: 50px;"></div>
+                    <!-- Horizontal hacia derecha -->
+                    <div class="cano cano-h" style="top: 40px; left: 115px; width: 220px;"></div>
+                    <!-- Baja al PUMP del filtro -->
+                    <div class="cano cano-v" style="top: 40px; left: 317px; height: 195px;"></div>
+
+                    <!-- Del RETURN del filtro hacia V3V-1 -->
+                    <div class="cano cano-h" style="top: 330px; left: 398px; width: 70px;"></div>
+                    <!-- Sube hacia V3V -->
+                    <div class="cano cano-v" style="top: 210px; left: 450px; height: 130px;"></div>
+
+                    <!-- VÁLVULA 3 VÍAS #1 (V3V-1) -->
+                    <div class="v3v" style="top: 180px; left: 425px;">
+                        <span class="zigbee-icon">📶</span>
+                        <span class="v3v-label" style="top: -28px; left: 50%; transform: translateX(-50%);">V3V-1 BYPASS</span>
+                    </div>
+
+                    <!-- Salida A de V3V: BYPASS → Jets (vertical baja) -->
+                    <div class="cano cano-v" style="top: 235px; left: 520px; height: 200px;"></div>
+                    <!-- Horizontal a pasamuro Jets -->
+                    <div class="cano cano-h" style="top: 425px; left: 520px; width: 165px;"></div>
+
+                    <!-- Salida B de V3V: IDA CALDERA → pasamuro -->
+                    <div class="cano cano-h cano-caldera" style="top: 200px; left: 480px; width: 205px;"></div>
+
+                    <!-- VUELTA CALDERA (entra) → se une al cano de Jets -->
+                    <div class="cano cano-h cano-caldera" style="top: 290px; right: 0; width: 165px;"></div>
+                    <!-- Baja y se une -->
+                    <div class="cano cano-v cano-caldera" style="top: 290px; left: 520px; height: 55px;"></div>
+
+                    <!-- Te donde se une vuelta con bypass -->
+                    <div style="position: absolute; top: 327px; left: 512px; width: 24px; height: 24px; 
+                                background: radial-gradient(circle at 30% 30%, #777, #555); 
+                                border-radius: 6px; z-index: 8;"></div>
+
+                    <!-- WASTE → Desagote (directo, sin válvula) -->
+                    <div class="cano cano-v" style="bottom: 85px; left: 317px; height: 50px;"></div>
+                    <div class="cano cano-h" style="bottom: 85px; left: 317px; width: 368px;"></div>
+
+                    <!-- ========== FLECHAS DE FLUJO ========== -->
+                    <span class="flecha" style="top: 105px; right: 280px;">◄◄◄</span>
+                    <span class="flecha" style="top: 120px; left: 240px;">▼</span>
+                    <span class="flecha" style="top: 50px; left: 200px;">►►►</span>
+                    <span class="flecha" style="top: 150px; left: 325px;">▼</span>
+                    <span class="flecha" style="top: 340px; left: 420px;">►</span>
+                    <span class="flecha" style="top: 285px; left: 458px;">▲</span>
+                    <span class="flecha" style="top: 300px; left: 530px;">▼</span>
+                    <span class="flecha" style="top: 435px; left: 580px;">►</span>
+                    <span class="flecha flecha-caliente" style="top: 210px; right: 80px;">►</span>
+                    <span class="flecha flecha-caliente" style="top: 300px; right: 80px;">◄</span>
+                    <span class="flecha" style="bottom: 95px; left: 450px;">►</span>
+
+                    <!-- Etiqueta de unión -->
+                    <div class="conexion-label" style="top: 355px; left: 495px;">UNIÓN</div>
+
+                </div>
+
+                <!-- PASAMUROS -->
+                <div class="pasamuros-panel">
+                    <div class="pasamuro">
+                        <div class="pasamuro-circulo"></div>
+                        <div class="pasamuro-info entrada">
+                            <div class="nombre">SKIMMER</div>
+                            <div class="detalle">Entrada 50mm</div>
+                        </div>
+                    </div>
+                    <div class="pasamuro">
+                        <div class="pasamuro-circulo"></div>
+                        <div class="pasamuro-info salida">
+                            <div class="nombre">IDA CALDERA</div>
+                            <div class="detalle">Salida 3/4"</div>
+                        </div>
+                    </div>
+                    <div class="pasamuro">
+                        <div class="pasamuro-circulo"></div>
+                        <div class="pasamuro-info entrada">
+                            <div class="nombre">VUELTA CALD.</div>
+                            <div class="detalle">Entrada 3/4"</div>
+                        </div>
+                    </div>
+                    <div class="pasamuro">
+                        <div class="pasamuro-circulo"></div>
+                        <div class="pasamuro-info salida">
+                            <div class="nombre">DESAGOTE</div>
+                            <div class="detalle">Salida 50mm</div>
+                        </div>
+                    </div>
+                    <div class="pasamuro">
+                        <div class="pasamuro-circulo"></div>
+                        <div class="pasamuro-info salida">
+                            <div class="nombre">JETS</div>
+                            <div class="detalle">Retorno 50mm</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LEYENDA -->
+        <div class="leyenda">
+            <div class="leyenda-item">
+                <div class="leyenda-dot" style="background: linear-gradient(145deg, #3b82f6, #1d4ed8);"></div>
+                <span>Bomba Gamma</span>
+            </div>
+            <div class="leyenda-item">
+                <div class="leyenda-dot" style="background: #d4c4a8;"></div>
+                <span>Filtro Arena</span>
+            </div>
+            <div class="leyenda-item">
+                <div class="leyenda-dot" style="background: #777;"></div>
+                <span>Caño PVC 50mm</span>
+            </div>
+            <div class="leyenda-item">
+                <div class="leyenda-dot" style="background: #a88;"></div>
+                <span>Caño Caldera 3/4"</span>
+            </div>
+            <div class="leyenda-item">
+                <div class="leyenda-dot" style="background: linear-gradient(145deg, #ef4444, #b91c1c);"></div>
+                <span>Válvula Manual</span>
+            </div>
+            <div class="leyenda-item">
+                <div class="leyenda-dot" style="background: linear-gradient(145deg, #22c55e, #15803d);"></div>
+                <span>V3V Zigbee</span>
+            </div>
+        </div>
+
+        <!-- CIRCUITO EXTERIOR -->
+        <div class="exterior-box">
+            <h3>🔥 CIRCUITO EXTERIOR (Fuera del gabinete)</h3>
+            <div class="exterior-diagram">
+                <div class="exterior-item">
+                    <div class="icon">📤</div>
+                    <div class="name">IDA CALDERA</div>
+                    <div class="desc">Del gabinete</div>
+                </div>
+                <div class="exterior-arrow">→</div>
+                <div class="exterior-item" style="border: 2px solid #f97316;">
+                    <div class="icon">🔥</div>
+                    <div class="name">CALDERA</div>
+                    <div class="desc">Termostato Zigbee</div>
+                </div>
+                <div class="exterior-arrow">→</div>
+                <div class="exterior-item" style="border: 2px solid #22c55e;">
+                    <div class="icon">3️⃣</div>
+                    <div class="name">V3V-2</div>
+                    <div class="desc">Caldera / Red</div>
+                </div>
+                <div class="exterior-arrow">→</div>
+                <div class="exterior-item">
+                    <div class="icon">📥</div>
+                    <div class="name">VUELTA</div>
+                    <div class="desc">Al gabinete</div>
+                </div>
+                <div class="exterior-item" style="position: relative; top: 0;">
+                    <div class="icon">🚰</div>
+                    <div class="name">AGUA RED</div>
+                    <div class="desc">↓ a V3V-2</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODOS DE OPERACIÓN -->
+        <section class="modos-section">
+            <h2>🎛️ Modos de Operación</h2>
+            <div class="modos-grid">
+                <div class="modo-card">
+                    <h4><span class="emoji">🔄</span> FILTRAR</h4>
+                    <div class="comando">"Ok Google, filtrar piscina"</div>
+                    <div class="modo-estados">
+                        <div class="modo-estado"><span>V3V-1 (Gabinete)</span><span class="estado-pos">Pos. A (Bypass)</span></div>
+                        <div class="modo-estado"><span>V3V-2 (Exterior)</span><span class="estado-off">— No importa</span></div>
+                        <div class="modo-estado"><span>Bomba</span><span class="estado-on">ON</span></div>
+                        <div class="modo-estado"><span>Caldera</span><span class="estado-off">OFF</span></div>
+                    </div>
+                </div>
+
+                <div class="modo-card">
+                    <h4><span class="emoji">🔥</span> CALENTAR</h4>
+                    <div class="comando">"Ok Google, calentar piscina"</div>
+                    <div class="modo-estados">
+                        <div class="modo-estado"><span>V3V-1 (Gabinete)</span><span class="estado-pos">Pos. B (Ida)</span></div>
+                        <div class="modo-estado"><span>V3V-2 (Exterior)</span><span class="estado-pos">Pos. A (Caldera)</span></div>
+                        <div class="modo-estado"><span>Bomba</span><span class="estado-on">ON</span></div>
+                        <div class="modo-estado"><span>Caldera</span><span class="estado-on">ON</span></div>
+                    </div>
+                </div>
+
+                <div class="modo-card">
+                    <h4><span class="emoji">🚿</span> LLENAR FRÍA</h4>
+                    <div class="comando">"Ok Google, llenar piscina"</div>
+                    <div class="modo-estados">
+                        <div class="modo-estado"><span>V3V-1 (Gabinete)</span><span class="estado-pos">Pos. A (Bypass)</span></div>
+                        <div class="modo-estado"><span>V3V-2 (Exterior)</span><span class="estado-pos">Pos. B (Red)</span></div>
+                        <div class="modo-estado"><span>Bomba</span><span class="estado-off">OFF</span></div>
+                        <div class="modo-estado"><span>Caldera</span><span class="estado-off">OFF</span></div>
+                    </div>
+                </div>
+
+                <div class="modo-card">
+                    <h4><span class="emoji">♨️</span> LLENAR CALIENTE</h4>
+                    <div class="comando">"Ok Google, llenar piscina caliente"</div>
+                    <div class="modo-estados">
+                        <div class="modo-estado"><span>V3V-1 (Gabinete)</span><span class="estado-pos">Pos. B (Ida)</span></div>
+                        <div class="modo-estado"><span>V3V-2 (Exterior)</span><span class="estado-pos">Pos. B (Red)</span></div>
+                        <div class="modo-estado"><span>Bomba</span><span class="estado-on">ON (ayuda)</span></div>
+                        <div class="modo-estado"><span>Caldera</span><span class="estado-on">ON</span></div>
+                    </div>
+                </div>
+
+                <div class="modo-card">
+                    <h4><span class="emoji">🔁</span> CIRCULAR (sin calentar)</h4>
+                    <div class="comando">"Ok Google, circular piscina"</div>
+                    <div class="modo-estados">
+                        <div class="modo-estado"><span>V3V-1 (Gabinete)</span><span class="estado-pos">Pos. B (Ida)</span></div>
+                        <div class="modo-estado"><span>V3V-2 (Exterior)</span><span class="estado-pos">Pos. A (Caldera)</span></div>
+                        <div class="modo-estado"><span>Bomba</span><span class="estado-on">ON</span></div>
+                        <div class="modo-estado"><span>Caldera</span><span class="estado-off">OFF</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LISTA DE MATERIALES -->
+        <section class="materiales-section">
+            <h2>🛒 Lista de Materiales</h2>
+            <div class="materiales-grid">
+                <div class="material-card">
+                    <h3>🟢 Válvulas Automatizadas</h3>
+                    <ul>
+                        <li><span>Válvula 3 vías 50mm motorizada Zigbee</span><span class="cantidad">1</span></li>
+                        <li><span>Válvula 3 vías 3/4" motorizada Zigbee</span><span class="cantidad">1</span></li>
+                        <li><span>Termostato Zigbee para caldera</span><span class="cantidad">1</span></li>
+                    </ul>
+                </div>
+
+                <div class="material-card">
+                    <h3>🔴 Válvulas Manuales</h3>
+                    <ul>
+                        <li><span>Válvula esférica PVC 50mm (palanca)</span><span class="cantidad">1</span></li>
+                    </ul>
+                </div>
+
+                <div class="material-card">
+                    <h3>🔩 Pasamuros</h3>
+                    <ul>
+                        <li><span>Pasamuros / Adaptador tanque 50mm</span><span class="cantidad">3</span></li>
+                        <li><span>Pasamuros / Adaptador tanque 3/4"</span><span class="cantidad">2</span></li>
+                    </ul>
+                </div>
+
+                <div class="material-card">
+                    <h3>📐 Accesorios PVC 50mm</h3>
+                    <ul>
+                        <li><span>Codos 90°</span><span class="cantidad">8</span></li>
+                        <li><span>Codos 45°</span><span class="cantidad">4</span></li>
+                        <li><span>Te 50mm</span><span class="cantidad">1</span></li>
+                        <li><span>Uniones dobles</span><span class="cantidad">4</span></li>
+                        <li><span>Cuplas (manguitos)</span><span class="cantidad">4</span></li>
+                    </ul>
+                </div>
+
+                <div class="material-card">
+                    <h3>🔧 Caños</h3>
+                    <ul>
+                        <li><span>PVC Hidráulico 50mm (tira 4m)</span><span class="cantidad">2</span></li>
+                        <li><span>Termofusión 50mm (exterior)</span><span class="cantidad">2</span></li>
+                        <li><span>Termofusión 3/4" (caldera)</span><span class="cantidad">2</span></li>
+                    </ul>
+                </div>
+
+                <div class="material-card">
+                    <h3>🧴 Insumos</h3>
+                    <ul>
+                        <li><span>Adhesivo PVC (lata grande)</span><span class="cantidad">1</span></li>
+                        <li><span>Solución limpiadora</span><span class="cantidad">1</span></li>
+                        <li><span>Teflón alta densidad (rollo)</span><span class="cantidad">3</span></li>
+                        <li><span>Sellador roscas (pasta)</span><span class="cantidad">1</span></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- NOTAS -->
+        <div class="nota-importante">
+            <h3>✅ Resumen del Sistema</h3>
+            <ul>
+                <li><strong>Solo 2 válvulas motorizadas</strong> + termostato = 3 dispositivos Zigbee total</li>
+                <li><strong>V3V-1</strong> (gabinete): decide si el agua va a caldera o directo a jets</li>
+                <li><strong>V3V-2</strong> (exterior): decide si entra agua de caldera o agua de red</li>
+                <li><strong>Sin bypass físico de caldera</strong>: el termostato Zigbee controla si calienta o no</li>
+                <li><strong>Desagote directo</strong>: sin válvula, sale por el WASTE del filtro</li>
+                <li><strong>V. Skimmer manual</strong>: solo para mantenimiento (normalmente abierta)</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>Esquema Gabinete Piscina • Sistema V3V con Zigbee</p>
+            <p>Generado para automatización domótica</p>
+        </footer>
+    </div>
+</body>
+</html>
