@@ -5,609 +5,481 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gabinete Piscina - Bypass en H</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: #f5f5f5;
-            padding: 20px;
-            color: #333;
-        }
-        
-        .container { max-width: 1200px; margin: 0 auto; }
-        
-        h1 { text-align: center; color: #1565c0; margin-bottom: 5px; }
-        .subtitle { text-align: center; color: #666; margin-bottom: 20px; }
-        
-        .diagram-container {
-            background: white;
-            border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-        }
-        
-        .diagram-wrapper { display: flex; justify-content: center; }
-        
-        .legend {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid #e0e0e0;
-        }
-        
-        .legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; }
-        .legend-dot { width: 16px; height: 16px; border-radius: 50%; }
-        
-        .section { margin-top: 30px; }
-        .section h2 { text-align: center; color: #1565c0; margin-bottom: 20px; font-size: 1.3rem; }
-        
-        .modes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 15px;
-        }
-        
-        .mode-card {
-            background: white;
-            border-radius: 12px;
-            padding: 16px;
-            border: 1px solid #e0e0e0;
-        }
-        
-        .mode-card h3 { font-size: 15px; margin-bottom: 8px; color: #333; }
-        
-        .mode-card .flow {
-            background: #e3f2fd;
-            color: #1565c0;
-            padding: 6px 10px;
-            border-radius: 6px;
-            font-size: 11px;
-            margin-bottom: 12px;
-        }
-        
-        .mode-card .states { font-size: 12px; }
-        
-        .mode-card .state {
-            display: flex;
-            justify-content: space-between;
-            padding: 4px 0;
-            border-bottom: 1px solid #f5f5f5;
-        }
-        
-        .state-open { color: #2e7d32; font-weight: bold; }
-        .state-closed { color: #c62828; font-weight: bold; }
-        .state-on { color: #2e7d32; font-weight: bold; }
-        .state-off { color: #9e9e9e; }
-        
-        .materials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 15px;
-        }
-        
-        .material-card {
-            background: white;
-            border-radius: 12px;
-            padding: 16px;
-            border: 1px solid #e0e0e0;
-        }
-        
-        .material-card h3 { color: #1565c0; font-size: 14px; margin-bottom: 12px; }
-        .material-card ul { list-style: none; }
-        
-        .material-card li {
-            display: flex;
-            justify-content: space-between;
-            padding: 5px 0;
-            border-bottom: 1px solid #f5f5f5;
-            font-size: 12px;
-        }
-        
-        .qty {
-            background: #1565c0;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 11px;
-            font-weight: bold;
-        }
-        
-        .note {
-            background: #fff3e0;
-            border: 1px solid #ffb74d;
-            border-radius: 12px;
-            padding: 16px;
-            margin-top: 20px;
-        }
-        
-        .note h3 { color: #e65100; font-size: 14px; margin-bottom: 10px; }
-        .note ul { list-style: none; font-size: 12px; }
-        .note li { padding: 3px 0; padding-left: 20px; position: relative; }
-        .note li::before { content: '⚠'; position: absolute; left: 0; }
-        
-        .note-success { background: #e8f5e9; border-color: #81c784; }
-        .note-success h3 { color: #2e7d32; }
-        .note-success li::before { content: '✓'; color: #2e7d32; }
-        
-        .exterior-box {
-            background: #fff8e1;
-            border: 1px dashed #ffa000;
-            border-radius: 12px;
-            padding: 16px;
-            margin-top: 20px;
-            text-align: center;
-        }
-        
-        .exterior-box h3 { color: #e65100; margin-bottom: 15px; }
-        
-        .exterior-flow {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        
-        .exterior-item {
-            background: white;
-            padding: 10px 16px;
-            border-radius: 8px;
-            border: 1px solid #e0e0e0;
-            font-size: 12px;
-        }
-        
-        .exterior-arrow { color: #999; font-size: 20px; }
-        
-        footer { text-align: center; margin-top: 30px; color: #999; font-size: 11px; }
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Segoe UI',Arial,sans-serif;background:#eee;padding:20px;color:#333}
+        .container{max-width:1200px;margin:0 auto}
+        h1{text-align:center;color:#1565c0;margin-bottom:5px}
+        .subtitle{text-align:center;color:#666;margin-bottom:20px;font-size:14px}
+        .diagram-box{background:#fff;border-radius:16px;padding:20px;box-shadow:0 2px 12px rgba(0,0,0,0.1);margin-bottom:30px}
+        .diagram-wrapper{display:flex;justify-content:center;overflow-x:auto}
+        .legend{display:flex;justify-content:center;gap:25px;flex-wrap:wrap;margin-top:20px;padding-top:20px;border-top:1px solid #ddd}
+        .legend-item{display:flex;align-items:center;gap:8px;font-size:12px}
+        .legend-color{width:30px;height:12px;border-radius:3px}
+        .section{margin-top:30px}
+        .section h2{text-align:center;color:#1565c0;margin-bottom:20px}
+        .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:15px}
+        .card{background:#fff;border-radius:12px;padding:16px;border:1px solid #ddd}
+        .card h3{font-size:15px;margin-bottom:10px;color:#333}
+        .card .flow{background:#e3f2fd;color:#1565c0;padding:6px 10px;border-radius:6px;font-size:11px;margin-bottom:12px}
+        .card ul{list-style:none;font-size:12px}
+        .card li{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f0f0f0}
+        .open{color:#2e7d32;font-weight:bold}
+        .closed{color:#c62828;font-weight:bold}
+        .on{color:#2e7d32;font-weight:bold}
+        .off{color:#9e9e9e}
+        .qty{background:#1565c0;color:#fff;padding:2px 8px;border-radius:10px;font-size:11px}
+        .note{background:#fff3e0;border:1px solid #ffb74d;border-radius:12px;padding:16px;margin-top:20px;font-size:12px}
+        .note h3{color:#e65100;margin-bottom:10px}
+        .note ul{list-style:none}
+        .note li{padding:3px 0;padding-left:20px;position:relative}
+        .note li::before{content:'⚠';position:absolute;left:0}
+        .note-ok{background:#e8f5e9;border-color:#81c784}
+        .note-ok h3{color:#2e7d32}
+        .note-ok li::before{content:'✓';color:#2e7d32}
+        .exterior{background:#fff8e1;border:1px dashed #ffa000;border-radius:12px;padding:16px;margin-top:20px;text-align:center}
+        .exterior h3{color:#e65100;margin-bottom:15px}
+        .ext-flow{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
+        .ext-item{background:#fff;padding:10px 16px;border-radius:8px;border:1px solid #ddd;font-size:12px}
+        .ext-arrow{color:#999;font-size:20px}
+        footer{text-align:center;margin-top:30px;color:#999;font-size:11px}
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🏊 Esquema Gabinete Piscina</h1>
-        <p class="subtitle">Bypass en "H" con Válvulas Esféricas • Preparado para Zigbee</p>
-        
-        <div class="diagram-container">
-            <div class="diagram-wrapper">
-                <svg viewBox="0 0 1050 800" width="1050" height="800">
-                    
-                    <!-- FONDO DEL GABINETE -->
-                    <rect x="50" y="50" width="700" height="670" rx="16" fill="#e8e8e8" stroke="#ccc" stroke-width="2"/>
-                    <text x="400" y="80" text-anchor="middle" fill="#666" font-size="14" font-weight="bold">INTERIOR DEL GABINETE</text>
-                    
-                    <!-- ========================================== -->
-                    <!-- CAPA 1: CAÑOS PRINCIPALES -->
-                    <!-- ========================================== -->
-                    
-                    <!-- SUCCIÓN: Pasamuro → V.Skimmer → Bomba -->
-                    <path d="M 750 130 L 500 130 Q 460 130 460 170 L 460 220" 
-                          fill="none" stroke="#505050" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
-                    
-                    <!-- IMPULSIÓN: Bomba → arriba → izquierda → baja → PUMP filtro -->
-                    <path d="M 300 240 L 300 140 Q 300 100 260 100 L 140 100 Q 100 100 100 140 L 100 440 Q 100 480 140 480 L 210 480" 
-                          fill="none" stroke="#505050" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
-                    
-                    <!-- RETURN: Filtro → Te bypass -->
-                    <path d="M 450 520 L 500 520 L 500 400" 
-                          fill="none" stroke="#505050" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
-                    
-                    <!-- ===== BYPASS EN "H" COMPLETO ===== -->
-                    
-                    <!-- VERTICAL IZQUIERDO completo -->
-                    <path d="M 500 180 L 500 600" 
-                          fill="none" stroke="#505050" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
-                    
-                    <!-- VERTICAL DERECHO completo -->
-                    <path d="M 670 180 L 670 600" 
-                          fill="none" stroke="#505050" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
-                    
-                    <!-- HORIZONTAL BYPASS (arriba) - conecta verticales -->
-                    <path d="M 500 180 L 670 180" 
-                          fill="none" stroke="#505050" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
-                    
-                    <!-- HORIZONTAL IDA (parte gris - entre verticales) -->
-                    <path d="M 500 300 L 670 300" 
-                          fill="none" stroke="#505050" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
-                    
-                    <!-- HORIZONTAL IDA (parte naranja - sale del vertical DER al pasamuro) -->
-                    <path d="M 670 300 L 750 300" 
-                          fill="none" stroke="#bf360c" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
-                    
-                    <!-- HORIZONTAL VUELTA (parte naranja - del pasamuro al vertical DER) -->
-                    <path d="M 750 410 L 670 410" 
-                          fill="none" stroke="#bf360c" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
-                    
-                    <!-- HORIZONTAL VUELTA (parte gris - entre verticales) -->
-                    <path d="M 670 410 L 500 410" 
-                          fill="none" stroke="#505050" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
-                    
-                    <!-- HORIZONTAL INFERIOR - conecta verticales -->
-                    <path d="M 500 600 L 670 600" 
-                          fill="none" stroke="#505050" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
-                    
-                    <!-- SALIDA A JETS -->
-                    <path d="M 670 600 L 750 600" 
-                          fill="none" stroke="#505050" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
-                    
-                    <!-- WASTE: Filtro → Desagote -->
-                    <path d="M 330 620 L 330 680 Q 330 710 370 710 L 750 710" 
-                          fill="none" stroke="#505050" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
-                    
-                    <!-- ========================================== -->
-                    <!-- CAPA 2: EQUIPOS -->
-                    <!-- ========================================== -->
-                    
-                    <!-- BOMBA GAMMA -->
-                    <g>
-                        <rect x="220" y="220" width="100" height="70" rx="8" fill="#1565c0"/>
-                        <text x="270" y="262" text-anchor="middle" fill="white" font-size="14" font-weight="bold">GAMMA</text>
-                        <rect x="320" y="230" width="50" height="50" rx="6" fill="#263238"/>
-                        <circle cx="410" cy="255" r="45" fill="#bbdefb" stroke="#64b5f6" stroke-width="4"/>
-                        <circle cx="410" cy="255" r="28" fill="none" stroke="white" stroke-width="2" stroke-dasharray="6 4" opacity="0.5"/>
-                    </g>
-                    <text x="320" y="320" text-anchor="middle" fill="#0d47a1" font-size="13" font-weight="bold">BOMBA GAMMA</text>
-                    
-                    <!-- FILTRO DE ARENA -->
-                    <g>
-                        <circle cx="330" cy="520" r="110" fill="#ffca28" stroke="#ff8f00" stroke-width="4"/>
-                        <circle cx="330" cy="520" r="60" fill="#37474f"/>
-                        <circle cx="330" cy="520" r="18" fill="#455a64"/>
-                        <line x1="330" y1="520" x2="385" y2="475" stroke="#263238" stroke-width="10" stroke-linecap="round"/>
-                    </g>
-                    <text x="330" y="665" text-anchor="middle" fill="#e65100" font-size="14" font-weight="bold">FILTRO DE ARENA</text>
-                    <text x="195" y="520" text-anchor="middle" fill="#37474f" font-size="12" font-weight="bold">PUMP</text>
-                    <text x="465" y="510" text-anchor="middle" fill="#37474f" font-size="12" font-weight="bold">RETURN</text>
-                    <text x="330" y="650" text-anchor="middle" fill="#37474f" font-size="12" font-weight="bold">WASTE</text>
-                    
-                    <!-- ========================================== -->
-                    <!-- CAPA 3: UNIONES Y TEs -->
-                    <!-- ========================================== -->
-                    
-                    <!-- Te donde RETURN conecta -->
-                    <rect x="487" y="385" width="26" height="30" rx="5" fill="#78909c"/>
-                    
-                    <!-- TE en cruce IDA con vertical DERECHO -->
-                    <rect x="657" y="287" width="26" height="26" rx="5" fill="#78909c"/>
-                    <text x="670" y="275" text-anchor="middle" fill="#455a64" font-size="9" font-weight="bold">TE</text>
-                    
-                    <!-- TE en cruce VUELTA con vertical DERECHO -->
-                    <rect x="657" y="397" width="26" height="26" rx="5" fill="#78909c"/>
-                    <text x="670" y="440" text-anchor="middle" fill="#455a64" font-size="9" font-weight="bold">TE</text>
-                    
-                    <!-- UNIÓN INFERIOR -->
-                    <rect x="565" y="587" width="60" height="26" rx="5" fill="#78909c"/>
-                    <text x="595" y="630" text-anchor="middle" fill="#455a64" font-size="11" font-weight="bold">UNIÓN</text>
-                    
-                    <!-- ========================================== -->
-                    <!-- CAPA 4: VÁLVULAS -->
-                    <!-- ========================================== -->
-                    
-                    <!-- V. SKIMMER -->
-                    <g transform="translate(600, 130)">
-                        <rect x="-40" y="-14" width="80" height="28" rx="6" fill="#78909c"/>
-                        <circle cx="0" cy="0" r="24" fill="#c62828"/>
-                        <rect x="-36" y="-8" width="72" height="16" rx="4" fill="#8e0000"/>
-                        <line x1="-12" y1="-12" x2="12" y2="12" stroke="white" stroke-width="5" stroke-linecap="round"/>
-                    </g>
-                    <text x="600" y="100" text-anchor="middle" fill="#b71c1c" font-size="12" font-weight="bold">V. SKIMMER</text>
-                    
-                    <!-- V. BYPASS (entre los verticales, arriba) -->
-                    <g transform="translate(585, 180)">
-                        <rect x="-40" y="-14" width="80" height="28" rx="6" fill="#78909c"/>
-                        <circle cx="0" cy="0" r="24" fill="#c62828"/>
-                        <rect x="-36" y="-8" width="72" height="16" rx="4" fill="#8e0000"/>
-                        <line x1="-12" y1="-12" x2="12" y2="12" stroke="white" stroke-width="5" stroke-linecap="round"/>
-                    </g>
-                    <text x="585" y="155" text-anchor="middle" fill="#b71c1c" font-size="12" font-weight="bold">V. BYPASS</text>
-                    
-                    <!-- V. IDA (entre los verticales) -->
-                    <g transform="translate(585, 300)">
-                        <rect x="-40" y="-14" width="80" height="28" rx="6" fill="#78909c"/>
-                        <circle cx="0" cy="0" r="24" fill="#c62828"/>
-                        <rect x="-36" y="-8" width="72" height="16" rx="4" fill="#8e0000"/>
-                        <line x1="-12" y1="-12" x2="12" y2="12" stroke="white" stroke-width="5" stroke-linecap="round"/>
-                    </g>
-                    <text x="585" y="340" text-anchor="middle" fill="#b71c1c" font-size="12" font-weight="bold">V. IDA</text>
-                    
-                    <!-- V. VUELTA (entre los verticales) -->
-                    <g transform="translate(585, 410)">
-                        <rect x="-40" y="-14" width="80" height="28" rx="6" fill="#78909c"/>
-                        <circle cx="0" cy="0" r="24" fill="#c62828"/>
-                        <rect x="-36" y="-8" width="72" height="16" rx="4" fill="#8e0000"/>
-                        <line x1="-12" y1="-12" x2="12" y2="12" stroke="white" stroke-width="5" stroke-linecap="round"/>
-                    </g>
-                    <text x="585" y="450" text-anchor="middle" fill="#b71c1c" font-size="12" font-weight="bold">V. VUELTA</text>
-                    
-                    <!-- ========================================== -->
-                    <!-- CAPA 5: PASAMUROS -->
-                    <!-- ========================================== -->
-                    
-                    <circle cx="750" cy="130" r="16" fill="#607d8b" stroke="#1565c0" stroke-width="4"/>
-                    <circle cx="750" cy="130" r="7" fill="#37474f"/>
-                    
-                    <circle cx="750" cy="300" r="16" fill="#bf360c" stroke="#e65100" stroke-width="4"/>
-                    <circle cx="750" cy="300" r="7" fill="#4e342e"/>
-                    
-                    <circle cx="750" cy="410" r="16" fill="#bf360c" stroke="#e65100" stroke-width="4"/>
-                    <circle cx="750" cy="410" r="7" fill="#4e342e"/>
-                    
-                    <circle cx="750" cy="600" r="16" fill="#607d8b" stroke="#1565c0" stroke-width="4"/>
-                    <circle cx="750" cy="600" r="7" fill="#37474f"/>
-                    
-                    <circle cx="750" cy="710" r="16" fill="#607d8b" stroke="#9e9e9e" stroke-width="4"/>
-                    <circle cx="750" cy="710" r="7" fill="#37474f"/>
-                    
-                    <!-- ========================================== -->
-                    <!-- CAPA 6: FLECHAS DE FLUJO -->
-                    <!-- ========================================== -->
-                    
-                    <!-- Succión -->
-                    <text x="650" y="125" fill="#1565c0" font-size="18" font-weight="bold">◄</text>
-                    <text x="540" y="125" fill="#1565c0" font-size="18" font-weight="bold">◄</text>
-                    <text x="470" y="195" fill="#1565c0" font-size="18" font-weight="bold">▼</text>
-                    
-                    <!-- Impulsión -->
-                    <text x="310" y="200" fill="#1565c0" font-size="18" font-weight="bold">▲</text>
-                    <text x="200" y="95" fill="#1565c0" font-size="18" font-weight="bold">◄</text>
-                    <text x="110" y="300" fill="#1565c0" font-size="18" font-weight="bold">▼</text>
-                    <text x="165" y="475" fill="#1565c0" font-size="18" font-weight="bold">►</text>
-                    
-                    <!-- Return -->
-                    <text x="485" y="515" fill="#1565c0" font-size="18" font-weight="bold">►</text>
-                    <text x="510" y="460" fill="#1565c0" font-size="18" font-weight="bold">▲</text>
-                    
-                    <!-- Bypass verticales -->
-                    <text x="510" y="260" fill="#1565c0" font-size="18" font-weight="bold">▲</text>
-                    <text x="510" y="540" fill="#1565c0" font-size="18" font-weight="bold">▼</text>
-                    <text x="680" y="360" fill="#1565c0" font-size="18" font-weight="bold">▼</text>
-                    <text x="680" y="540" fill="#1565c0" font-size="18" font-weight="bold">▼</text>
-                    
-                    <!-- Ida caldera (solo la parte que sale) -->
-                    <text x="715" y="295" fill="#bf360c" font-size="18" font-weight="bold">►</text>
-                    
-                    <!-- Vuelta caldera (solo la parte que entra) -->
-                    <text x="715" y="405" fill="#bf360c" font-size="18" font-weight="bold">◄</text>
-                    
-                    <!-- Inferior y jets -->
-                    <text x="545" y="595" fill="#1565c0" font-size="18" font-weight="bold">►</text>
-                    <text x="635" y="595" fill="#1565c0" font-size="18" font-weight="bold">►</text>
-                    <text x="715" y="595" fill="#1565c0" font-size="18" font-weight="bold">►</text>
-                    
-                    <!-- Waste -->
-                    <text x="550" y="705" fill="#1565c0" font-size="18" font-weight="bold">►</text>
-                    
-                    <!-- ========================================== -->
-                    <!-- CAPA 7: ETIQUETAS -->
-                    <!-- ========================================== -->
-                    
-                    <rect x="100" y="65" width="100" height="26" rx="5" fill="#e3f2fd" stroke="#1565c0" stroke-width="1"/>
-                    <text x="150" y="83" text-anchor="middle" fill="#0d47a1" font-size="12" font-weight="bold">IMPULSIÓN</text>
-                    
-                    <rect x="500" y="210" width="130" height="28" rx="6" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
-                    <text x="565" y="230" text-anchor="middle" fill="#0d47a1" font-size="12" font-weight="bold">BYPASS CALDERA</text>
-                    
-                    <!-- ========================================== -->
-                    <!-- CAPA 8: ETIQUETAS EXTERNAS -->
-                    <!-- ========================================== -->
-                    
-                    <g transform="translate(780, 0)">
-                        <rect x="0" y="105" width="170" height="50" rx="8" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
-                        <text x="85" y="130" text-anchor="middle" fill="#0d47a1" font-size="14" font-weight="bold">SKIMMER</text>
-                        <text x="85" y="147" text-anchor="middle" fill="#666" font-size="11">Entrada 50mm</text>
-                        
-                        <rect x="0" y="275" width="170" height="50" rx="8" fill="#fff3e0" stroke="#e65100" stroke-width="2"/>
-                        <text x="85" y="300" text-anchor="middle" fill="#bf360c" font-size="14" font-weight="bold">IDA CALDERA</text>
-                        <text x="85" y="317" text-anchor="middle" fill="#666" font-size="11">Salida 3/4"</text>
-                        
-                        <rect x="0" y="385" width="170" height="50" rx="8" fill="#fff3e0" stroke="#e65100" stroke-width="2"/>
-                        <text x="85" y="410" text-anchor="middle" fill="#bf360c" font-size="14" font-weight="bold">VUELTA CALD.</text>
-                        <text x="85" y="427" text-anchor="middle" fill="#666" font-size="11">Entrada 3/4" (+RED)</text>
-                        
-                        <rect x="0" y="575" width="170" height="50" rx="8" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
-                        <text x="85" y="600" text-anchor="middle" fill="#0d47a1" font-size="14" font-weight="bold">RETORNO JETS</text>
-                        <text x="85" y="617" text-anchor="middle" fill="#666" font-size="11">Salida 50mm</text>
-                        
-                        <rect x="0" y="685" width="170" height="50" rx="8" fill="#fafafa" stroke="#9e9e9e" stroke-width="1"/>
-                        <text x="85" y="710" text-anchor="middle" fill="#424242" font-size="14" font-weight="bold">DESAGOTE</text>
-                        <text x="85" y="727" text-anchor="middle" fill="#666" font-size="11">Salida 50mm</text>
-                    </g>
-                    
-                    <!-- Líneas conectoras -->
-                    <line x1="766" y1="130" x2="780" y2="130" stroke="#1565c0" stroke-width="2"/>
-                    <line x1="766" y1="300" x2="780" y2="300" stroke="#e65100" stroke-width="2"/>
-                    <line x1="766" y1="410" x2="780" y2="410" stroke="#e65100" stroke-width="2"/>
-                    <line x1="766" y1="600" x2="780" y2="600" stroke="#1565c0" stroke-width="2"/>
-                    <line x1="766" y1="710" x2="780" y2="710" stroke="#9e9e9e" stroke-width="2"/>
-                    
-                </svg>
+<div class="container">
+    <h1>🏊 Esquema Gabinete Piscina</h1>
+    <p class="subtitle">Bypass en "H" con Válvulas Esféricas de Palanca • Preparado para Zigbee</p>
+
+    <div class="diagram-box">
+        <div class="diagram-wrapper">
+            <svg viewBox="0 0 1000 780" width="1000" height="780">
+
+                <!-- FONDO GABINETE -->
+                <rect x="40" y="40" width="680" height="660" rx="12" fill="#d5d5d5" stroke="#bbb" stroke-width="2"/>
+                <text x="380" y="70" text-anchor="middle" fill="#777" font-size="13" font-weight="bold">INTERIOR DEL GABINETE</text>
+
+                <!-- ================================================ -->
+                <!-- CIRCUITO PRINCIPAL (GRIS OSCURO #3a3a3a) -->
+                <!-- Succión, Impulsión, Return inicial, Waste, Jets -->
+                <!-- ================================================ -->
+
+                <!-- SUCCIÓN: Pasamuro → V.Skimmer → baja → Bomba -->
+                <path d="M 730 120 L 530 120 Q 490 120 490 160 L 490 200"
+                      fill="none" stroke="#3a3a3a" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+
+                <!-- IMPULSIÓN: Bomba → sube → izquierda → baja → Filtro PUMP -->
+                <path d="M 310 220 L 310 130 Q 310 90 270 90 L 130 90 Q 90 90 90 130 L 90 420 Q 90 460 130 460 L 185 460"
+                      fill="none" stroke="#3a3a3a" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+
+                <!-- RETURN: Filtro → hacia el bypass (solo hasta V.IZQ) -->
+                <path d="M 415 500 L 470 500 L 470 420"
+                      fill="none" stroke="#3a3a3a" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+
+                <!-- WASTE: Filtro → abajo → derecha → pasamuro -->
+                <path d="M 300 610 L 300 680 Q 300 710 340 710 L 730 710"
+                      fill="none" stroke="#3a3a3a" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+
+                <!-- SALIDA A JETS: Desde unión inferior → pasamuro -->
+                <path d="M 640 580 L 730 580"
+                      fill="none" stroke="#3a3a3a" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+
+                <!-- ================================================ -->
+                <!-- BYPASS INTERNO "H" (GRIS CLARO #808080) -->
+                <!-- Verticales y horizontales ENTRE verticales -->
+                <!-- ================================================ -->
+
+                <!-- VERTICAL IZQUIERDO (donde llega Return y salen los horizontales) -->
+                <path d="M 470 170 L 470 580"
+                      fill="none" stroke="#808080" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+
+                <!-- VERTICAL DERECHO (recibe de bypass y vuelta, baja a jets) -->
+                <path d="M 640 170 L 640 580"
+                      fill="none" stroke="#808080" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+
+                <!-- HORIZONTAL BYPASS (arriba): V.IZQ → V.DER -->
+                <path d="M 470 170 L 640 170"
+                      fill="none" stroke="#808080" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+
+                <!-- HORIZONTAL IDA (parte gris): V.IZQ → V.DER -->
+                <path d="M 470 300 L 640 300"
+                      fill="none" stroke="#808080" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+
+                <!-- HORIZONTAL VUELTA (parte gris): V.IZQ → V.DER -->
+                <path d="M 470 420 L 640 420"
+                      fill="none" stroke="#808080" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+
+                <!-- HORIZONTAL INFERIOR: V.IZQ → V.DER (donde converge todo hacia Jets) -->
+                <path d="M 470 580 L 640 580"
+                      fill="none" stroke="#808080" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+
+                <!-- ================================================ -->
+                <!-- CIRCUITO CALDERA (NARANJA #d35400) -->
+                <!-- SOLO tramos que van/vienen de pasamuros caldera -->
+                <!-- ================================================ -->
+
+                <!-- TRAMO IDA: V.DER → V.IDA → Pasamuro IDA -->
+                <path d="M 640 300 L 730 300"
+                      fill="none" stroke="#d35400" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+
+                <!-- TRAMO VUELTA: Pasamuro VUELTA → V.VUELTA → V.DER -->
+                <path d="M 730 420 L 640 420"
+                      fill="none" stroke="#d35400" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+
+                <!-- ================================================ -->
+                <!-- BOMBA GAMMA -->
+                <!-- ================================================ -->
+                <rect x="230" y="200" width="95" height="60" rx="6" fill="#1565c0"/>
+                <text x="277" y="237" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">GAMMA</text>
+                <rect x="325" y="208" width="42" height="44" rx="4" fill="#263238"/>
+                <circle cx="405" cy="230" r="40" fill="#b3d9ff" stroke="#64b5f6" stroke-width="4"/>
+                <circle cx="405" cy="230" r="24" fill="none" stroke="#fff" stroke-width="2" stroke-dasharray="5 4" opacity="0.5"/>
+                <text x="300" y="290" text-anchor="middle" fill="#0d47a1" font-size="12" font-weight="bold">BOMBA GAMMA</text>
+
+                <!-- ================================================ -->
+                <!-- FILTRO DE ARENA -->
+                <!-- ================================================ -->
+                <circle cx="300" cy="500" r="100" fill="#ffc107" stroke="#ff8f00" stroke-width="4"/>
+                <circle cx="300" cy="500" r="55" fill="#37474f"/>
+                <circle cx="300" cy="500" r="15" fill="#546e7a"/>
+                <line x1="300" y1="500" x2="350" y2="455" stroke="#263238" stroke-width="9" stroke-linecap="round"/>
+                <text x="300" y="630" text-anchor="middle" fill="#e65100" font-size="13" font-weight="bold">FILTRO DE ARENA</text>
+                <text x="175" y="505" text-anchor="middle" fill="#37474f" font-size="11" font-weight="bold">PUMP</text>
+                <text x="430" y="495" text-anchor="middle" fill="#37474f" font-size="11" font-weight="bold">RETURN</text>
+                <text x="300" y="615" text-anchor="middle" fill="#37474f" font-size="10" font-weight="bold">WASTE</text>
+
+                <!-- ================================================ -->
+                <!-- TES Y UNIONES -->
+                <!-- ================================================ -->
+                
+                <!-- Te donde RETURN conecta al vertical izquierdo -->
+                <rect x="458" y="405" width="24" height="30" rx="4" fill="#607d8b"/>
+
+                <!-- Te en cruce IDA con vertical derecho -->
+                <rect x="628" y="288" width="24" height="24" rx="4" fill="#607d8b"/>
+
+                <!-- Te en cruce VUELTA con vertical derecho -->
+                <rect x="628" y="408" width="24" height="24" rx="4" fill="#607d8b"/>
+
+                <!-- UNIÓN INFERIOR -->
+                <rect x="535" y="568" width="50" height="24" rx="4" fill="#607d8b"/>
+                <text x="560" y="610" text-anchor="middle" fill="#546e7a" font-size="10" font-weight="bold">UNIÓN</text>
+
+                <!-- ================================================ -->
+                <!-- VÁLVULAS -->
+                <!-- ================================================ -->
+
+                <!-- V. SKIMMER (en succión, gris oscuro) -->
+                <g transform="translate(600, 120)">
+                    <rect x="-36" y="-12" width="72" height="24" rx="5" fill="#607d8b"/>
+                    <circle cx="0" cy="0" r="20" fill="#c62828"/>
+                    <rect x="-30" y="-6" width="60" height="12" rx="3" fill="#8e0000"/>
+                    <line x1="-9" y1="-9" x2="9" y2="9" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+                </g>
+                <text x="600" y="95" text-anchor="middle" fill="#b71c1c" font-size="11" font-weight="bold">V. SKIMMER</text>
+
+                <!-- V. BYPASS (en horizontal superior gris claro) -->
+                <g transform="translate(555, 170)">
+                    <rect x="-36" y="-12" width="72" height="24" rx="5" fill="#607d8b"/>
+                    <circle cx="0" cy="0" r="20" fill="#c62828"/>
+                    <rect x="-30" y="-6" width="60" height="12" rx="3" fill="#8e0000"/>
+                    <line x1="-9" y1="-9" x2="9" y2="9" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+                </g>
+                <text x="555" y="148" text-anchor="middle" fill="#b71c1c" font-size="11" font-weight="bold">V. BYPASS</text>
+
+                <!-- V. IDA (en tramo NARANJA hacia pasamuro) -->
+                <g transform="translate(685, 300)">
+                    <rect x="-36" y="-12" width="72" height="24" rx="5" fill="#a04000"/>
+                    <circle cx="0" cy="0" r="20" fill="#c62828"/>
+                    <rect x="-30" y="-6" width="60" height="12" rx="3" fill="#8e0000"/>
+                    <line x1="-9" y1="-9" x2="9" y2="9" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+                </g>
+                <text x="685" y="338" text-anchor="middle" fill="#b71c1c" font-size="11" font-weight="bold">V. IDA</text>
+
+                <!-- V. VUELTA (en tramo NARANJA desde pasamuro) -->
+                <g transform="translate(685, 420)">
+                    <rect x="-36" y="-12" width="72" height="24" rx="5" fill="#a04000"/>
+                    <circle cx="0" cy="0" r="20" fill="#c62828"/>
+                    <rect x="-30" y="-6" width="60" height="12" rx="3" fill="#8e0000"/>
+                    <line x1="-9" y1="-9" x2="9" y2="9" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+                </g>
+                <text x="685" y="458" text-anchor="middle" fill="#b71c1c" font-size="11" font-weight="bold">V. VUELTA</text>
+
+                <!-- ================================================ -->
+                <!-- PASAMUROS (pared derecha) -->
+                <!-- ================================================ -->
+                
+                <!-- Skimmer (gris oscuro) -->
+                <circle cx="730" cy="120" r="14" fill="#3a3a3a" stroke="#1565c0" stroke-width="3"/>
+                <circle cx="730" cy="120" r="6" fill="#222"/>
+
+                <!-- Ida Caldera (naranja) -->
+                <circle cx="730" cy="300" r="14" fill="#d35400" stroke="#e67e22" stroke-width="3"/>
+                <circle cx="730" cy="300" r="6" fill="#7f2d00"/>
+
+                <!-- Vuelta Caldera (naranja) -->
+                <circle cx="730" cy="420" r="14" fill="#d35400" stroke="#e67e22" stroke-width="3"/>
+                <circle cx="730" cy="420" r="6" fill="#7f2d00"/>
+
+                <!-- Jets (gris oscuro) -->
+                <circle cx="730" cy="580" r="14" fill="#3a3a3a" stroke="#1565c0" stroke-width="3"/>
+                <circle cx="730" cy="580" r="6" fill="#222"/>
+
+                <!-- Desagote (gris oscuro) -->
+                <circle cx="730" cy="710" r="14" fill="#3a3a3a" stroke="#9e9e9e" stroke-width="3"/>
+                <circle cx="730" cy="710" r="6" fill="#222"/>
+
+                <!-- ================================================ -->
+                <!-- FLECHAS DE FLUJO -->
+                <!-- ================================================ -->
+                
+                <!-- Succión -->
+                <text x="660" y="115" fill="#1565c0" font-size="16" font-weight="bold">◄</text>
+                <text x="550" y="115" fill="#1565c0" font-size="16" font-weight="bold">◄</text>
+                <text x="500" y="180" fill="#1565c0" font-size="16" font-weight="bold">▼</text>
+
+                <!-- Impulsión -->
+                <text x="320" y="175" fill="#1565c0" font-size="16" font-weight="bold">▲</text>
+                <text x="200" y="85" fill="#1565c0" font-size="16" font-weight="bold">◄</text>
+                <text x="100" y="280" fill="#1565c0" font-size="16" font-weight="bold">▼</text>
+                <text x="155" y="455" fill="#1565c0" font-size="16" font-weight="bold">►</text>
+
+                <!-- Return -->
+                <text x="450" y="495" fill="#1565c0" font-size="16" font-weight="bold">►</text>
+                <text x="480" y="460" fill="#1565c0" font-size="16" font-weight="bold">▲</text>
+
+                <!-- Bypass vertical izq (sube y baja) -->
+                <text x="480" y="250" fill="#607d8b" font-size="16" font-weight="bold">▲</text>
+                <text x="480" y="530" fill="#607d8b" font-size="16" font-weight="bold">▼</text>
+
+                <!-- Bypass vertical der (baja) -->
+                <text x="650" y="360" fill="#607d8b" font-size="16" font-weight="bold">▼</text>
+                <text x="650" y="530" fill="#607d8b" font-size="16" font-weight="bold">▼</text>
+
+                <!-- Ida (naranja sale) -->
+                <text x="720" y="295" fill="#d35400" font-size="16" font-weight="bold">►</text>
+
+                <!-- Vuelta (naranja entra) -->
+                <text x="720" y="415" fill="#d35400" font-size="16" font-weight="bold">◄</text>
+
+                <!-- Inferior a jets -->
+                <text x="520" y="575" fill="#607d8b" font-size="16" font-weight="bold">►</text>
+                <text x="610" y="575" fill="#607d8b" font-size="16" font-weight="bold">►</text>
+                <text x="690" y="575" fill="#1565c0" font-size="16" font-weight="bold">►</text>
+
+                <!-- Waste -->
+                <text x="520" y="705" fill="#1565c0" font-size="16" font-weight="bold">►</text>
+
+                <!-- ================================================ -->
+                <!-- ETIQUETAS -->
+                <!-- ================================================ -->
+                
+                <rect x="90" y="55" width="95" height="24" rx="4" fill="#e3f2fd" stroke="#1565c0" stroke-width="1"/>
+                <text x="137" y="72" text-anchor="middle" fill="#0d47a1" font-size="11" font-weight="bold">IMPULSIÓN</text>
+
+                <rect x="480" y="195" width="120" height="26" rx="5" fill="#eceff1" stroke="#607d8b" stroke-width="2"/>
+                <text x="540" y="213" text-anchor="middle" fill="#37474f" font-size="11" font-weight="bold">BYPASS CALDERA</text>
+
+                <!-- ================================================ -->
+                <!-- ETIQUETAS EXTERNAS -->
+                <!-- ================================================ -->
+                
+                <g transform="translate(760, 0)">
+                    <rect x="0" y="95" width="150" height="50" rx="6" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+                    <text x="75" y="118" text-anchor="middle" fill="#0d47a1" font-size="13" font-weight="bold">SKIMMER</text>
+                    <text x="75" y="135" text-anchor="middle" fill="#666" font-size="10">Entrada 50mm</text>
+
+                    <rect x="0" y="275" width="150" height="50" rx="6" fill="#fff3e0" stroke="#e65100" stroke-width="2"/>
+                    <text x="75" y="298" text-anchor="middle" fill="#d35400" font-size="13" font-weight="bold">IDA CALDERA</text>
+                    <text x="75" y="315" text-anchor="middle" fill="#666" font-size="10">Salida 3/4"</text>
+
+                    <rect x="0" y="395" width="150" height="50" rx="6" fill="#fff3e0" stroke="#e65100" stroke-width="2"/>
+                    <text x="75" y="418" text-anchor="middle" fill="#d35400" font-size="13" font-weight="bold">VUELTA CALD.</text>
+                    <text x="75" y="435" text-anchor="middle" fill="#666" font-size="10">Entrada 3/4" (+RED)</text>
+
+                    <rect x="0" y="555" width="150" height="50" rx="6" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+                    <text x="75" y="578" text-anchor="middle" fill="#0d47a1" font-size="13" font-weight="bold">RETORNO JETS</text>
+                    <text x="75" y="595" text-anchor="middle" fill="#666" font-size="10">Salida 50mm</text>
+
+                    <rect x="0" y="685" width="150" height="50" rx="6" fill="#fafafa" stroke="#9e9e9e" stroke-width="1"/>
+                    <text x="75" y="708" text-anchor="middle" fill="#424242" font-size="13" font-weight="bold">DESAGOTE</text>
+                    <text x="75" y="725" text-anchor="middle" fill="#666" font-size="10">Salida 50mm</text>
+                </g>
+
+                <!-- Líneas conectoras -->
+                <line x1="744" y1="120" x2="760" y2="120" stroke="#1565c0" stroke-width="2"/>
+                <line x1="744" y1="300" x2="760" y2="300" stroke="#e65100" stroke-width="2"/>
+                <line x1="744" y1="420" x2="760" y2="420" stroke="#e65100" stroke-width="2"/>
+                <line x1="744" y1="580" x2="760" y2="580" stroke="#1565c0" stroke-width="2"/>
+                <line x1="744" y1="710" x2="760" y2="710" stroke="#9e9e9e" stroke-width="2"/>
+
+            </svg>
+        </div>
+
+        <!-- LEYENDA -->
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background:#3a3a3a"></div>
+                <span>Circuito Principal (50mm)</span>
             </div>
-            
-            <!-- LEYENDA -->
-            <div class="legend">
-                <div class="legend-item">
-                    <div class="legend-dot" style="background: #1565c0;"></div>
-                    <span>Bomba Gamma</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-dot" style="background: #ffca28;"></div>
-                    <span>Filtro de Arena</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-dot" style="background: #505050;"></div>
-                    <span>Caño PVC 50mm</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-dot" style="background: #bf360c;"></div>
-                    <span>Caño Caldera 3/4"</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-dot" style="background: #c62828;"></div>
-                    <span>Válvula Esférica</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-dot" style="background: #78909c;"></div>
-                    <span>TE / Unión</span>
-                </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background:#808080"></div>
+                <span>Bypass Interno "H"</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background:#d35400"></div>
+                <span>Circuito Caldera (3/4")</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background:#c62828;border-radius:50%;width:16px;height:16px"></div>
+                <span>Válvula Esférica</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background:#607d8b"></div>
+                <span>Te / Unión</span>
             </div>
         </div>
-        
-        <!-- CIRCUITO EXTERIOR -->
-        <div class="exterior-box">
-            <h3>🔥 CIRCUITO EXTERIOR (Fuera del gabinete)</h3>
-            <div class="exterior-flow">
-                <div class="exterior-item">📤 IDA CALDERA<br><small>del gabinete</small></div>
-                <span class="exterior-arrow">→</span>
-                <div class="exterior-item" style="border: 2px solid #e65100;">🔥 CALDERA<br><small>Serpentín</small></div>
-                <span class="exterior-arrow">→</span>
-                <div class="exterior-item">📥 VUELTA CALD.<br><small>al gabinete</small></div>
-            </div>
-            <p style="margin-top: 12px; color: #666; font-size: 11px;">
-                💡 La <strong>INYECCIÓN DE RED</strong> se conecta al caño de VUELTA (afuera)
-            </p>
-        </div>
-        
-        <!-- MODOS DE OPERACIÓN -->
-        <section class="section">
-            <h2>🎛️ Modos de Operación</h2>
-            <div class="modes-grid">
-                <div class="mode-card">
-                    <h3>🔄 FILTRAR (sin caldera)</h3>
-                    <div class="flow">RETURN → V.Izq → BYPASS abierto → V.Der → UNIÓN → JETS</div>
-                    <div class="states">
-                        <div class="state"><span>V. Skimmer</span><span class="state-open">ABIERTA</span></div>
-                        <div class="state"><span>V. Bypass</span><span class="state-open">ABIERTA</span></div>
-                        <div class="state"><span>V. Ida</span><span class="state-closed">CERRADA</span></div>
-                        <div class="state"><span>V. Vuelta</span><span class="state-closed">CERRADA</span></div>
-                        <div class="state"><span>Bomba</span><span class="state-on">ON</span></div>
-                    </div>
-                </div>
-                
-                <div class="mode-card">
-                    <h3>🔥 CALENTAR (con caldera)</h3>
-                    <div class="flow">RETURN → V.Izq → IDA abierta → TE → CALDERA → VUELTA → TE → V.Der → JETS</div>
-                    <div class="states">
-                        <div class="state"><span>V. Skimmer</span><span class="state-open">ABIERTA</span></div>
-                        <div class="state"><span>V. Bypass</span><span class="state-closed">CERRADA</span></div>
-                        <div class="state"><span>V. Ida</span><span class="state-open">ABIERTA</span></div>
-                        <div class="state"><span>V. Vuelta</span><span class="state-open">ABIERTA</span></div>
-                        <div class="state"><span>Bomba</span><span class="state-on">ON</span></div>
-                        <div class="state"><span>Caldera</span><span class="state-on">ENCENDIDA</span></div>
-                    </div>
-                </div>
-                
-                <div class="mode-card">
-                    <h3>🚿 LLENAR PISCINA (agua fría)</h3>
-                    <div class="flow">RED → VUELTA → TE → V.Der → UNIÓN → JETS</div>
-                    <div class="states">
-                        <div class="state"><span>V. Skimmer</span><span class="state-closed">CERRADA</span></div>
-                        <div class="state"><span>V. Bypass</span><span class="state-open">ABIERTA</span></div>
-                        <div class="state"><span>V. Ida</span><span class="state-closed">CERRADA</span></div>
-                        <div class="state"><span>V. Vuelta</span><span class="state-open">ABIERTA</span></div>
-                        <div class="state"><span>Bomba</span><span class="state-off">OFF</span></div>
-                        <div class="state"><span>Llave Red</span><span class="state-open">ABIERTA</span></div>
-                    </div>
-                </div>
-                
-                <div class="mode-card">
-                    <h3>🛠️ MANTENIMIENTO CALDERA</h3>
-                    <div class="flow">Caldera aislada, filtrado normal</div>
-                    <div class="states">
-                        <div class="state"><span>V. Skimmer</span><span class="state-open">ABIERTA</span></div>
-                        <div class="state"><span>V. Bypass</span><span class="state-open">ABIERTA</span></div>
-                        <div class="state"><span>V. Ida</span><span class="state-closed">CERRADA</span></div>
-                        <div class="state"><span>V. Vuelta</span><span class="state-closed">CERRADA</span></div>
-                        <div class="state"><span>Bomba</span><span class="state-on">ON</span></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- MATERIALES -->
-        <section class="section">
-            <h2>🛒 Lista de Materiales</h2>
-            <div class="materials-grid">
-                <div class="material-card">
-                    <h3>🔴 Válvulas Esféricas (PALANCA)</h3>
-                    <ul>
-                        <li><span>Esférica PVC 50mm (Skimmer)</span><span class="qty">1</span></li>
-                        <li><span>Esférica PVC 50mm (Bypass)</span><span class="qty">1</span></li>
-                        <li><span>Esférica 3/4" (Ida)</span><span class="qty">1</span></li>
-                        <li><span>Esférica 3/4" (Vuelta)</span><span class="qty">1</span></li>
-                    </ul>
-                </div>
-                
-                <div class="material-card">
-                    <h3>🔩 Pasamuros</h3>
-                    <ul>
-                        <li><span>Pasamuros 50mm</span><span class="qty">3</span></li>
-                        <li><span>Pasamuros 3/4"</span><span class="qty">2</span></li>
-                    </ul>
-                </div>
-                
-                <div class="material-card">
-                    <h3>📐 Accesorios PVC 50mm</h3>
-                    <ul>
-                        <li><span>Codos 90°</span><span class="qty">10</span></li>
-                        <li><span>Te 50mm</span><span class="qty">4</span></li>
-                        <li><span>Uniones dobles</span><span class="qty">5</span></li>
-                        <li><span>Cuplas</span><span class="qty">4</span></li>
-                    </ul>
-                </div>
-                
-                <div class="material-card">
-                    <h3>🔧 Caños</h3>
-                    <ul>
-                        <li><span>PVC 50mm (tira 4m)</span><span class="qty">2</span></li>
-                        <li><span>Reducción 50mm a 3/4"</span><span class="qty">2</span></li>
-                        <li><span>Codos 3/4"</span><span class="qty">4</span></li>
-                    </ul>
-                </div>
-                
-                <div class="material-card">
-                    <h3>🧴 Insumos</h3>
-                    <ul>
-                        <li><span>Adhesivo PVC</span><span class="qty">1</span></li>
-                        <li><span>Limpiador PVC</span><span class="qty">1</span></li>
-                        <li><span>Teflón alta densidad</span><span class="qty">3</span></li>
-                    </ul>
-                </div>
-                
-                <div class="material-card">
-                    <h3>🤖 Automatización</h3>
-                    <ul>
-                        <li><span>Actuador Zigbee 50mm</span><span class="qty">2</span></li>
-                        <li><span>Actuador Zigbee 3/4"</span><span class="qty">2</span></li>
-                        <li><span>Termostato Zigbee</span><span class="qty">1</span></li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-        
-        <!-- NOTAS -->
-        <div class="note">
-            <h3>⚠️ IMPORTANTE: Válvulas de PALANCA</h3>
-            <ul>
-                <li>Las válvulas DEBEN ser de <strong>manija tipo PALANCA</strong></li>
-                <li>Giro de <strong>90° (cuarto de vuelta)</strong></li>
-                <li>Dejá <strong>10-15 cm</strong> arriba para el actuador Zigbee</li>
-            </ul>
-        </div>
-        
-        <div class="note note-success">
-            <h3>✅ Cómo funciona el Bypass en "H"</h3>
-            <ul>
-                <li><strong>FILTRAR:</strong> Agua pasa por BYPASS directo al vertical derecho → JETS</li>
-                <li><strong>CALENTAR:</strong> Agua pasa por IDA → sale a caldera → vuelve por VUELTA → entra al vertical derecho por la TE → baja → JETS</li>
-                <li><strong>Las TEs en el vertical derecho</strong> permiten que el agua de VUELTA entre al circuito y baje a JETS</li>
-            </ul>
-        </div>
-        
-        <footer>
-            <p>Esquema Gabinete Piscina • Bypass en "H" • Todos los pasamuros a la derecha</p>
-        </footer>
     </div>
+
+    <!-- CIRCUITO EXTERIOR -->
+    <div class="exterior">
+        <h3>🔥 CIRCUITO EXTERIOR</h3>
+        <div class="ext-flow">
+            <div class="ext-item">📤 IDA CALDERA<br><small>del gabinete</small></div>
+            <span class="ext-arrow">→</span>
+            <div class="ext-item" style="border:2px solid #e65100">🔥 CALDERA<br><small>Serpentín</small></div>
+            <span class="ext-arrow">→</span>
+            <div class="ext-item">📥 VUELTA<br><small>al gabinete</small></div>
+        </div>
+        <p style="margin-top:12px;color:#666;font-size:11px">💡 La <b>INYECCIÓN DE RED</b> se conecta al caño de VUELTA (afuera)</p>
+    </div>
+
+    <!-- MODOS DE OPERACIÓN -->
+    <section class="section">
+        <h2>🎛️ Modos de Operación</h2>
+        <div class="cards">
+            <div class="card">
+                <h3>🔄 FILTRAR (sin caldera)</h3>
+                <div class="flow">RETURN → V.Izq → BYPASS abierto → V.Der → JETS</div>
+                <ul>
+                    <li><span>V. Skimmer</span><span class="open">ABIERTA</span></li>
+                    <li><span>V. Bypass</span><span class="open">ABIERTA</span></li>
+                    <li><span>V. Ida</span><span class="closed">CERRADA</span></li>
+                    <li><span>V. Vuelta</span><span class="closed">CERRADA</span></li>
+                    <li><span>Bomba</span><span class="on">ON</span></li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>🔥 CALENTAR (con caldera)</h3>
+                <div class="flow">RETURN → V.Izq → IDA → Caldera → VUELTA → V.Der → JETS</div>
+                <ul>
+                    <li><span>V. Skimmer</span><span class="open">ABIERTA</span></li>
+                    <li><span>V. Bypass</span><span class="closed">CERRADA</span></li>
+                    <li><span>V. Ida</span><span class="open">ABIERTA</span></li>
+                    <li><span>V. Vuelta</span><span class="open">ABIERTA</span></li>
+                    <li><span>Bomba</span><span class="on">ON</span></li>
+                    <li><span>Caldera</span><span class="on">ENCENDIDA</span></li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>🚿 LLENAR PISCINA</h3>
+                <div class="flow">RED → VUELTA abierta → V.Der → UNIÓN → JETS</div>
+                <ul>
+                    <li><span>V. Skimmer</span><span class="closed">CERRADA</span></li>
+                    <li><span>V. Bypass</span><span class="open">ABIERTA</span></li>
+                    <li><span>V. Ida</span><span class="closed">CERRADA</span></li>
+                    <li><span>V. Vuelta</span><span class="open">ABIERTA</span></li>
+                    <li><span>Bomba</span><span class="off">OFF</span></li>
+                    <li><span>Llave Red</span><span class="open">ABIERTA</span></li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>🛠️ MANTENIMIENTO</h3>
+                <div class="flow">Caldera aislada, filtrado normal</div>
+                <ul>
+                    <li><span>V. Skimmer</span><span class="open">ABIERTA</span></li>
+                    <li><span>V. Bypass</span><span class="open">ABIERTA</span></li>
+                    <li><span>V. Ida</span><span class="closed">CERRADA</span></li>
+                    <li><span>V. Vuelta</span><span class="closed">CERRADA</span></li>
+                    <li><span>Bomba</span><span class="on">ON</span></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- MATERIALES -->
+    <section class="section">
+        <h2>🛒 Lista de Materiales</h2>
+        <div class="cards">
+            <div class="card">
+                <h3>🔴 Válvulas Esféricas PALANCA</h3>
+                <ul>
+                    <li><span>Esférica PVC 50mm (Skimmer)</span><span class="qty">1</span></li>
+                    <li><span>Esférica PVC 50mm (Bypass)</span><span class="qty">1</span></li>
+                    <li><span>Esférica 3/4" (Ida)</span><span class="qty">1</span></li>
+                    <li><span>Esférica 3/4" (Vuelta)</span><span class="qty">1</span></li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>🔩 Pasamuros</h3>
+                <ul>
+                    <li><span>Pasamuros 50mm</span><span class="qty">3</span></li>
+                    <li><span>Pasamuros 3/4"</span><span class="qty">2</span></li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>📐 Accesorios PVC</h3>
+                <ul>
+                    <li><span>Codos 90° (50mm)</span><span class="qty">10</span></li>
+                    <li><span>Te 50mm</span><span class="qty">4</span></li>
+                    <li><span>Uniones dobles</span><span class="qty">5</span></li>
+                    <li><span>Reducción 50mm a 3/4"</span><span class="qty">2</span></li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>🔧 Caños</h3>
+                <ul>
+                    <li><span>PVC 50mm (tira 4m)</span><span class="qty">2</span></li>
+                    <li><span>Caño 3/4"</span><span class="qty">2m</span></li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>🧴 Insumos</h3>
+                <ul>
+                    <li><span>Adhesivo PVC</span><span class="qty">1</span></li>
+                    <li><span>Teflón alta densidad</span><span class="qty">3</span></li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>🤖 Automatización</h3>
+                <ul>
+                    <li><span>Actuador Zigbee 50mm</span><span class="qty">2</span></li>
+                    <li><span>Actuador Zigbee 3/4"</span><span class="qty">2</span></li>
+                    <li><span>Termostato Zigbee</span><span class="qty">1</span></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- NOTAS -->
+    <div class="note">
+        <h3>⚠️ Válvulas de PALANCA</h3>
+        <ul>
+            <li>Las válvulas DEBEN ser de <b>manija tipo PALANCA</b> (no mariposa)</li>
+            <li>Giro de <b>90°</b> para compatibilidad con actuadores Zigbee</li>
+            <li>Dejar <b>10-15 cm</b> arriba para montar el actuador</li>
+        </ul>
+    </div>
+
+    <div class="note note-ok">
+        <h3>✅ Cómo leer el esquema</h3>
+        <ul>
+            <li><b>Gris oscuro:</b> Circuito principal de filtrado (succión, impulsión, waste, jets)</li>
+            <li><b>Gris claro:</b> Bypass interno "H" (permite elegir camino)</li>
+            <li><b>Naranja:</b> Circuito de caldera (solo los tramos que salen/entran a la caldera)</li>
+            <li><b>V.IDA y V.VUELTA</b> están en los tramos NARANJAS (controlan flujo a caldera)</li>
+        </ul>
+    </div>
+
+    <footer>Esquema Gabinete Piscina • Bypass en "H" • 3 Circuitos Diferenciados por Color</footer>
+</div>
 </body>
 </html>
