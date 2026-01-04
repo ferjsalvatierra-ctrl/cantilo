@@ -3,354 +3,632 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mapa de Armado - Gabinete Piscina</title>
+    <title>Esquema Gabinete Piscina - Versión Final</title>
     <style>
         :root {
-            --bg-floor: #1a1a1a; /* Color del piso del gabinete */
-            --wall-color: #2d2d2d;
-            --pump-blue: #0044cc;
-            --filter-beige: #e6dcc3;
-            --pipe-pvc: #95a5a6; /* Gris */
-            --pipe-blue: #3498db; /* Agua Fría */
-            --pipe-red: #e74c3c; /* Agua Caliente */
-            --zigbee: #00e676;
+            --cabinet-bg: #2a2a2a;
+            --cabinet-border: #1a1a1a;
+            --pipe-color: #7a8a8a;
+            --pipe-stroke: #555;
+            --pipe-hot: #c0392b;
+            --pipe-cold: #2980b9;
+            --valve-red: #e74c3c;
+            --valve-body: #444;
+            --pump-blue: #2874a6;
+            --filter-beige: #d4c4a8;
+            --filter-valve: #1a1a1a;
+            --zigbee-green: #27ae60;
+            --text-light: #ecf0f1;
+            --text-muted: #7f8c8d;
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Segoe UI', sans-serif;
-            background-color: #121212;
-            color: white;
-            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #121212;
+            color: var(--text-light);
             padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            min-height: 100vh;
         }
 
-        h1 { border-bottom: 2px solid var(--zigbee); padding-bottom: 10px; }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
 
-        /* --- EL GABINETE (LA CAJA NEGRA) --- */
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 28px;
+            border-bottom: 3px solid var(--zigbee-green);
+            padding-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+
+        /* --- GABINETE --- */
+        .cabinet-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
         .cabinet {
             position: relative;
-            width: 800px;
-            height: 700px;
-            background-color: var(--bg-floor);
-            border-radius: 20px;
-            border: 15px solid #000; /* Borde grueso como la fibra */
-            box-shadow: inset 0 0 100px #000;
-            margin-bottom: 30px;
-            overflow: hidden;
+            width: 900px;
+            height: 750px;
+            background: var(--cabinet-bg);
+            border: 12px solid var(--cabinet-border);
+            border-radius: 25px;
+            box-shadow: inset 0 0 80px rgba(0,0,0,0.5), 0 20px 60px rgba(0,0,0,0.5);
+            overflow: visible;
         }
 
-        .label-zone {
+        .cabinet-label {
             position: absolute;
             width: 100%;
             text-align: center;
-            color: #555;
-            font-weight: bold;
             font-size: 12px;
+            color: var(--text-muted);
             text-transform: uppercase;
-            pointer-events: none;
+            letter-spacing: 2px;
+        }
+        .cabinet-label.top { top: 15px; }
+        .cabinet-label.bottom { bottom: 15px; }
+
+        /* --- SVG PARA CAÑOS --- */
+        .pipes-svg {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 1;
         }
 
-        /* --- PARED DERECHA (CONEXIONES) --- */
+        .pipe {
+            fill: none;
+            stroke: var(--pipe-color);
+            stroke-width: 18;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .pipe-outline {
+            fill: none;
+            stroke: var(--pipe-stroke);
+            stroke-width: 22;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .pipe-hot {
+            stroke: var(--pipe-hot);
+        }
+
+        .pipe-cold {
+            stroke: var(--pipe-cold);
+        }
+
+        /* Flechas de flujo */
+        .flow-arrow {
+            fill: var(--text-light);
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        /* --- BOMBA --- */
+        .pump {
+            position: absolute;
+            top: 60px;
+            left: 50px;
+            z-index: 10;
+        }
+
+        .pump-motor {
+            width: 140px;
+            height: 100px;
+            background: linear-gradient(135deg, #3498db 0%, var(--pump-blue) 100%);
+            border-radius: 8px;
+            box-shadow: 4px 4px 15px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+            color: rgba(255,255,255,0.3);
+        }
+
+        .pump-wetend {
+            position: absolute;
+            top: 10px;
+            right: -70px;
+            width: 80px;
+            height: 80px;
+            background: #222;
+            border-radius: 10px;
+            border: 2px solid #444;
+        }
+
+        .pump-basket {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 55px;
+            height: 55px;
+            background: rgba(135, 206, 235, 0.15);
+            border: 3px solid rgba(135, 206, 235, 0.4);
+            border-radius: 50%;
+        }
+
+        .pump-label {
+            position: absolute;
+            bottom: -25px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* --- FILTRO --- */
+        .filter {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+
+        .filter-tank {
+            width: 220px;
+            height: 220px;
+            background: radial-gradient(circle at 30% 30%, #e8dcc8, var(--filter-beige) 50%, #b8a888);
+            border-radius: 50%;
+            box-shadow: inset -15px -15px 40px rgba(0,0,0,0.3), 5px 5px 20px rgba(0,0,0,0.4);
+        }
+
+        .filter-valve-head {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 140px;
+            height: 140px;
+            background: var(--filter-valve);
+            border-radius: 50%;
+            border: 4px solid #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .filter-handle {
+            width: 110px;
+            height: 18px;
+            background: linear-gradient(to bottom, #555, #333);
+            border-radius: 10px;
+            transform: rotate(-45deg);
+        }
+
+        .filter-port {
+            position: absolute;
+            width: 30px;
+            height: 20px;
+            background: #111;
+            border: 2px solid #333;
+        }
+
+        .filter-port.pump-port {
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 5px 5px 0 0;
+        }
+
+        .filter-port.return-port {
+            top: 50%;
+            right: -5px;
+            transform: translateY(-50%);
+            border-radius: 0 5px 5px 0;
+            width: 20px;
+            height: 30px;
+        }
+
+        .filter-port.waste-port {
+            bottom: 30px;
+            right: 10px;
+            border-radius: 0 5px 5px 0;
+            width: 20px;
+            height: 25px;
+        }
+
+        .filter-label {
+            position: absolute;
+            bottom: -30px;
+            width: 100%;
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* --- VÁLVULAS --- */
+        .valve {
+            position: absolute;
+            z-index: 20;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .valve-body {
+            width: 40px;
+            height: 40px;
+            background: var(--valve-body);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 2px 2px 8px rgba(0,0,0,0.4);
+        }
+
+        .valve-handle {
+            width: 50px;
+            height: 14px;
+            background: linear-gradient(to bottom, #ff6b6b, var(--valve-red));
+            border-radius: 3px;
+            transform: rotate(-45deg);
+            box-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+        }
+
+        .valve-label {
+            margin-top: 5px;
+            font-size: 11px;
+            color: var(--text-light);
+            background: rgba(0,0,0,0.7);
+            padding: 2px 8px;
+            border-radius: 3px;
+            white-space: nowrap;
+        }
+
+        /* Motor Zigbee */
+        .valve.zigbee .valve-body {
+            background: rgba(39, 174, 96, 0.2);
+            border: 2px solid var(--zigbee-green);
+            animation: pulse 2s infinite;
+        }
+
+        .valve.zigbee .valve-handle {
+            background: linear-gradient(to bottom, #58d68d, var(--zigbee-green));
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(39, 174, 96, 0.5); }
+            50% { box-shadow: 0 0 0 15px rgba(39, 174, 96, 0); }
+        }
+
+        /* --- PARED DE SALIDAS --- */
         .wall-right {
             position: absolute;
-            top: 0; right: 0; bottom: 0;
-            width: 80px;
-            background: repeating-linear-gradient(45deg, #333, #333 10px, #222 10px, #222 20px);
-            border-left: 4px solid #000;
+            top: 0;
+            right: -100px;
+            bottom: 0;
+            width: 120px;
             display: flex;
             flex-direction: column;
             justify-content: space-around;
-            align-items: center;
-            z-index: 50;
-        }
-
-        .port {
-            background: #000;
-            border: 1px solid #666;
-            color: #fff;
-            padding: 5px;
-            font-size: 10px;
-            text-align: center;
-            width: 90px;
-            margin-right: -60px; /* Salir del gabinete */
-            border-radius: 4px;
-            position: relative;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
-        }
-        /* Agujero del pasamuros */
-        .port::before {
-            content: ''; position: absolute; left: -15px; top: 50%; transform: translateY(-50%);
-            width: 10px; height: 10px; background: #000; border: 2px solid #fff; border-radius: 50%;
-        }
-
-        /* --- EQUIPOS (VISUALIZACIÓN REALISTA) --- */
-
-        /* BOMBA (Arriba) */
-        .pump {
-            position: absolute;
-            top: 50px; left: 50px;
-            width: 260px; height: 140px;
-            z-index: 10;
-        }
-        .pump-body {
-            position: absolute; bottom: 0; left: 0;
-            width: 180px; height: 100%;
-            background: var(--pump-blue);
-            border-radius: 10px;
-            box-shadow: 5px 5px 15px #000;
-            display: flex; align-items: center; justify-content: center;
-            font-weight: bold; font-size: 20px; color: rgba(0,0,0,0.3);
-        }
-        /* Canasto de la bomba (Girado a la derecha) */
-        .pump-basket {
-            position: absolute; bottom: 10px; right: 0;
-            width: 80px; height: 100px;
-            background: #222;
-            border: 2px solid #555;
-            border-radius: 0 10px 10px 0;
-        }
-        .pump-lid { /* Tapa transparente */
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 60px; height: 60px;
-            background: rgba(255,255,255,0.1);
-            border: 2px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-        }
-        /* Salida de la bomba (Arriba) */
-        .pump-out {
-            position: absolute; top: -10px; right: 20px;
-            width: 40px; height: 20px; background: #222;
-        }
-
-        /* FILTRO (Abajo Centro) */
-        .filter {
-            position: absolute;
-            bottom: 30px; left: 50%; transform: translateX(-50%);
-            width: 240px; height: 240px;
-            background: var(--filter-beige);
-            border-radius: 50%;
-            box-shadow: inset -20px -20px 50px rgba(0,0,0,0.5);
-            z-index: 10;
-        }
-        .filter-valve {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 150px; height: 150px;
-            background: #111; border-radius: 50%; border: 4px solid #333;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .handle { width: 130px; height: 20px; background: #333; transform: rotate(-45deg); border-radius: 10px; }
-        .label-filter { position: absolute; bottom: 20px; color: #fff; font-size: 10px; }
-
-        /* --- CAÑERÍAS (PIPES) --- */
-        .pipe {
-            position: absolute;
-            background: var(--pipe-pvc);
-            border: 1px solid rgba(0,0,0,0.5);
+            padding: 40px 0;
             z-index: 5;
-            box-shadow: 3px 3px 5px rgba(0,0,0,0.3);
-        }
-        
-        /* Flechas de flujo */
-        .flow::after {
-            content: '➤'; position: absolute; color: rgba(255,255,255,0.9); font-size: 14px;
-            top: 50%; left: 50%; transform: translate(-50%, -50%);
-            text-shadow: 0 0 2px #000;
         }
 
-        /* 1. SKIMMER (Azul) */
-        .p-skimmer {
-            top: 120px; right: 0; width: 410px; height: 16px;
-            background: var(--pipe-blue);
-            z-index: 4;
+        .port-exit {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        /* 2. BOMBA A FILTRO (La "S" suave) */
-        .p-pump-up { top: 30px; left: 290px; width: 16px; height: 80px; }
-        .p-pump-diag { 
-            top: 100px; left: 290px; width: 16px; height: 250px; 
-            transform: rotate(15deg); transform-origin: top center;
-        }
-        .p-pump-in { top: 340px; left: 355px; width: 16px; height: 50px; }
-
-        /* 3. DESAGOTE (Gris Oscuro) */
-        .p-waste {
-            top: 390px; left: 500px; width: 220px; height: 16px;
-            background: #444; transform: rotate(-10deg); transform-origin: left center;
+        .port-hole {
+            width: 24px;
+            height: 24px;
+            background: #1a1a1a;
+            border: 3px solid #555;
+            border-radius: 50%;
         }
 
-        /* 4. FILTRO A BYPASS (Salida Return) */
-        .p-return {
-            top: 450px; left: 500px; width: 100px; height: 16px;
-            transform: rotate(15deg); transform-origin: left center;
+        .port-label {
+            background: #1a1a1a;
+            color: var(--text-light);
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 11px;
+            text-align: center;
+            line-height: 1.3;
+            border: 1px solid #333;
+            min-width: 80px;
         }
 
-        /* --- EL BYPASS (Zona Derecha) --- */
-        .bypass-zone {
+        .port-label small {
+            display: block;
+            color: var(--text-muted);
+            font-size: 10px;
+        }
+
+        /* --- ETIQUETAS DENTRO DEL GABINETE --- */
+        .zone-label {
             position: absolute;
-            top: 200px; right: 100px;
-            width: 150px; height: 350px;
-            /* border: 1px dashed yellow; */
-            z-index: 20;
+            background: rgba(0,0,0,0.8);
+            color: var(--text-light);
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 13px;
+            font-weight: bold;
+            z-index: 25;
+            border: 1px solid #444;
         }
 
-        /* Ida Caldera (Arriba) */
-        .p-ida { position: absolute; top: 50px; right: -20px; width: 140px; height: 14px; background: var(--pipe-red); }
-        
-        /* Puente Vertical */
-        .p-bridge { position: absolute; top: 50px; left: 30px; width: 14px; height: 200px; background: var(--pipe-pvc); }
-        
-        /* Vuelta Caldera (Abajo) */
-        .p-vuelta { position: absolute; bottom: 100px; right: -20px; width: 140px; height: 14px; background: var(--pipe-red); }
-
-        /* Salida a Jets (Final) */
-        .p-jets-down { position: absolute; bottom: 0; left: 30px; width: 14px; height: 100px; }
-        .p-jets-out { position: absolute; bottom: 0; right: -20px; width: 140px; height: 14px; }
-
-        /* VÁLVULAS */
-        .valve {
-            position: absolute; width: 26px; height: 26px;
-            background: #fff; border: 2px solid #000; border-radius: 50%;
-            z-index: 30; cursor: pointer; display: flex; align-items: center; justify-content: center;
-        }
-        .valve::before { content: ''; width: 18px; height: 4px; background: #000; transform: rotate(45deg); }
-        .valve-label {
-            position: absolute; top: -20px; background: #000; color: #fff;
-            padding: 2px 5px; font-size: 10px; border-radius: 3px; white-space: nowrap;
+        /* --- LISTA DE MATERIALES --- */
+        h2 {
+            text-align: center;
+            margin: 40px 0 20px;
+            color: var(--zigbee-green);
         }
 
-        /* MOTOR ZIGBEE */
-        .zigbee-motor {
-            width: 40px; height: 40px;
-            background: rgba(0, 230, 118, 0.2);
-            border: 2px solid var(--zigbee);
-            top: 130px; left: 17px; /* En el medio del puente */
-            animation: pulse 2s infinite;
+        .materials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
         }
-        .zigbee-motor::after { content: '📡'; font-size: 16px; }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(0, 230, 118, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 230, 118, 0); } }
 
-        /* --- LISTAS --- */
-        .lists { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; width: 100%; max-width: 1000px; }
-        .card { background: #222; padding: 20px; border-radius: 8px; border-top: 4px solid var(--zigbee); }
-        .card h3 { margin-top: 0; color: var(--zigbee); }
-        ul { padding-left: 20px; color: #ccc; }
-        li { margin-bottom: 5px; }
+        .card {
+            background: #1e1e1e;
+            border-radius: 10px;
+            padding: 20px;
+            border-top: 4px solid var(--zigbee-green);
+        }
+
+        .card h3 {
+            margin: 0 0 15px;
+            color: var(--text-light);
+            font-size: 16px;
+        }
+
+        .card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .card li {
+            padding: 8px 0;
+            border-bottom: 1px solid #333;
+            color: #bbb;
+            font-size: 14px;
+        }
+
+        .card li:last-child {
+            border-bottom: none;
+        }
+
+        .card li strong {
+            color: var(--text-light);
+        }
+
+        .warning {
+            background: rgba(231, 76, 60, 0.1);
+            border: 1px solid var(--valve-red);
+            color: #e74c3c;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
 
     </style>
 </head>
 <body>
 
-    <h1>🏊‍♂️ Mapa de Armado: Gabinete Piscina</h1>
-    <p>Vista superior basada en tu foto. <strong>Bomba girada</strong> y <strong>Bypass a la derecha</strong>.</p>
+<div class="container">
+    <h1>🏊 Esquema Gabinete Piscina</h1>
+    <p class="subtitle">Vista superior • Bomba girada a la derecha • Todas las salidas a la derecha • Zigbee Ready</p>
 
-    <div class="cabinet">
-        <div class="label-zone" style="top: 10px;">FONDO (BOMBA)</div>
-        <div class="label-zone" style="bottom: 10px;">FRENTE (FILTRO)</div>
+    <div class="cabinet-wrapper">
+        <div class="cabinet">
+            <div class="cabinet-label top">FONDO DEL GABINETE (Pared trasera)</div>
+            <div class="cabinet-label bottom">FRENTE DEL GABINETE (Tapa)</div>
 
-        <!-- PARED DERECHA -->
-        <div class="wall-right">
-            <div class="port" style="border-color: var(--pipe-blue);">SKIMMER<br>(Entrada)</div>
-            <div class="port" style="border-color: var(--pipe-red);">IDA CALDERA<br>(3/4")</div>
-            <div class="port" style="border-color: #555;">DESAGOTE<br>(Salida)</div>
-            <div class="port" style="border-color: var(--pipe-red);">VUELTA CALD.<br>(3/4")</div>
-            <div class="port" style="border-color: var(--pipe-pvc);">JETS<br>(Retorno)</div>
-        </div>
+            <!-- SVG PARA TODOS LOS CAÑOS -->
+            <svg class="pipes-svg" viewBox="0 0 900 750">
+                <!-- CAÑO 1: SKIMMER (Azul) - Entra por derecha, va a la bomba -->
+                <path class="pipe-outline" d="M 800 120 L 280 120 Q 250 120 250 150 L 250 160"/>
+                <path class="pipe pipe-cold" d="M 800 120 L 280 120 Q 250 120 250 150 L 250 160"/>
+                <text class="flow-arrow" x="500" y="115">◄ ◄ ◄</text>
 
-        <!-- BOMBA (Arriba Izquierda) -->
-        <div class="pump">
-            <div class="pump-body">GAMMA</div>
-            <div class="pump-basket">
-                <div class="pump-lid"></div>
-            </div>
-            <div class="pump-out"></div>
-        </div>
+                <!-- CAÑO 2: BOMBA A FILTRO (Gris) - Sube y baja al filtro -->
+                <path class="pipe-outline" d="M 180 180 L 180 60 Q 180 40 200 40 L 420 40 Q 440 40 440 60 L 440 420"/>
+                <path class="pipe" d="M 180 180 L 180 60 Q 180 40 200 40 L 420 40 Q 440 40 440 60 L 440 420"/>
+                <text class="flow-arrow" x="300" y="35">►</text>
+                <text class="flow-arrow" x="445" y="250">▼</text>
 
-        <!-- FILTRO (Abajo Centro) -->
-        <div class="filter">
-            <div class="filter-valve">
-                <div class="handle"></div>
-                <span class="label-filter">FILTRO</span>
-            </div>
-        </div>
+                <!-- CAÑO 3: FILTRO RETURN A BYPASS (Gris) - Sale del filtro hacia la derecha -->
+                <path class="pipe-outline" d="M 560 500 L 620 500 Q 640 500 640 480 L 640 350"/>
+                <path class="pipe" d="M 560 500 L 620 500 Q 640 500 640 480 L 640 350"/>
+                <text class="flow-arrow" x="580" y="495">►</text>
 
-        <!-- CAÑERÍAS -->
+                <!-- CAÑO 4: BYPASS IDA (Rojo) - De la Te superior a la pared -->
+                <path class="pipe-outline pipe-hot" d="M 680 280 L 800 280"/>
+                <path class="pipe pipe-hot" d="M 680 280 L 800 280"/>
+                <text class="flow-arrow" x="730" y="275">►</text>
 
-        <!-- 1. SKIMMER (Azul) -->
-        <div class="pipe p-skimmer flow"></div>
-        <div class="valve" style="top: 115px; right: 100px;">
-            <span class="valve-label">V. Skimmer</span>
-        </div>
+                <!-- CAÑO 5: BYPASS PUENTE (Gris) - Vertical entre las dos Tes -->
+                <path class="pipe-outline" d="M 640 280 L 640 420"/>
+                <path class="pipe" d="M 640 280 L 640 420"/>
 
-        <!-- 2. BOMBA A FILTRO -->
-        <div class="pipe p-pump-up"></div>
-        <div class="pipe p-pump-diag flow"></div>
-        <div class="pipe p-pump-in"></div>
+                <!-- CAÑO 6: BYPASS VUELTA (Rojo) - De la pared a la Te inferior -->
+                <path class="pipe-outline pipe-hot" d="M 800 420 L 680 420"/>
+                <path class="pipe pipe-hot" d="M 800 420 L 680 420"/>
+                <text class="flow-arrow" x="730" y="415">◄</text>
 
-        <!-- 3. DESAGOTE -->
-        <div class="pipe p-waste flow"></div>
+                <!-- CAÑO 7: SALIDA A JETS (Gris) - Baja de la Te y sale a la pared -->
+                <path class="pipe-outline" d="M 640 460 L 640 580 Q 640 600 660 600 L 800 600"/>
+                <path class="pipe" d="M 640 460 L 640 580 Q 640 600 660 600 L 800 600"/>
+                <text class="flow-arrow" x="720" y="595">►</text>
 
-        <!-- 4. FILTRO A BYPASS -->
-        <div class="pipe p-return"></div>
+                <!-- CAÑO 8: DESAGOTE (Gris oscuro) - Del filtro a la pared -->
+                <path class="pipe-outline" d="M 540 560 L 600 560 Q 620 560 620 540 L 620 510 Q 620 490 640 490 L 700 490 Q 720 490 720 510 L 720 530 Q 720 550 740 550 L 800 550"/>
+                <path class="pipe" style="stroke: #5a5a5a;" d="M 540 560 L 600 560 Q 620 560 620 540 L 620 510 Q 620 490 640 490 L 700 490 Q 720 490 720 510 L 720 530 Q 720 550 740 550 L 800 550"/>
 
-        <!-- 5. BYPASS (Derecha) -->
-        <div class="bypass-zone">
-            <!-- Ida -->
-            <div class="pipe p-ida flow"></div>
-            <div class="valve" style="top: 44px; right: 50px;">
-                <span class="valve-label">V. Ida</span>
-            </div>
+                <!-- TES del Bypass (Cruces visibles) -->
+                <circle cx="640" cy="280" r="15" fill="#333" stroke="#555" stroke-width="3"/>
+                <circle cx="640" cy="420" r="15" fill="#333" stroke="#555" stroke-width="3"/>
+            </svg>
 
-            <!-- Puente -->
-            <div class="pipe p-bridge"></div>
-            <div class="valve zigbee-motor">
-                <span class="valve-label" style="top: -25px; color: var(--zigbee);">ZIGBEE</span>
+            <!-- BOMBA -->
+            <div class="pump">
+                <div class="pump-motor">GAMMA</div>
+                <div class="pump-wetend">
+                    <div class="pump-basket"></div>
+                </div>
+                <div class="pump-label">BOMBA (Girada)</div>
             </div>
 
-            <!-- Vuelta -->
-            <div class="pipe p-vuelta flow" style="transform: rotate(180deg);"></div>
-            <div class="valve" style="bottom: 94px; right: 50px;">
-                <span class="valve-label">V. Vuelta</span>
+            <!-- FILTRO -->
+            <div class="filter">
+                <div class="filter-tank">
+                    <div class="filter-valve-head">
+                        <div class="filter-handle"></div>
+                    </div>
+                    <div class="filter-port pump-port"></div>
+                    <div class="filter-port return-port"></div>
+                    <div class="filter-port waste-port"></div>
+                </div>
+                <div class="filter-label">FILTRO (Válvula 6 vías)</div>
             </div>
 
-            <!-- Salida Jets -->
-            <div class="pipe p-jets-down"></div>
-            <div class="pipe p-jets-out flow"></div>
-        </div>
+            <!-- VÁLVULAS -->
+            <!-- V. Skimmer -->
+            <div class="valve" style="top: 95px; right: 180px;">
+                <div class="valve-body"><div class="valve-handle"></div></div>
+                <div class="valve-label">V. SKIMMER</div>
+            </div>
 
+            <!-- V. Ida Caldera -->
+            <div class="valve" style="top: 255px; right: 130px;">
+                <div class="valve-body"><div class="valve-handle"></div></div>
+                <div class="valve-label">V. IDA</div>
+            </div>
+
+            <!-- V. Bypass (ZIGBEE) -->
+            <div class="valve zigbee" style="top: 325px; right: 220px;">
+                <div class="valve-body"><div class="valve-handle"></div></div>
+                <div class="valve-label">📡 ZIGBEE</div>
+            </div>
+
+            <!-- V. Vuelta Caldera -->
+            <div class="valve" style="top: 395px; right: 130px;">
+                <div class="valve-body"><div class="valve-handle"></div></div>
+                <div class="valve-label">V. VUELTA</div>
+            </div>
+
+            <!-- ETIQUETAS DE ZONA -->
+            <div class="zone-label" style="top: 240px; right: 240px;">BYPASS<br>CALDERA</div>
+
+            <!-- PARED DE SALIDAS (DERECHA) -->
+            <div class="wall-right">
+                <div class="port-exit">
+                    <div class="port-hole"></div>
+                    <div class="port-label">SKIMMER<small>(Entrada 50mm)</small></div>
+                </div>
+                <div class="port-exit">
+                    <div class="port-hole" style="border-color: var(--pipe-hot);"></div>
+                    <div class="port-label">IDA CALDERA<small>(Salida 3/4")</small></div>
+                </div>
+                <div class="port-exit">
+                    <div class="port-hole" style="border-color: var(--pipe-hot);"></div>
+                    <div class="port-label">VUELTA CALD.<small>(Entrada 3/4")</small></div>
+                </div>
+                <div class="port-exit">
+                    <div class="port-hole" style="border-color: #666;"></div>
+                    <div class="port-label">DESAGOTE<small>(Salida 50mm)</small></div>
+                </div>
+                <div class="port-exit">
+                    <div class="port-hole"></div>
+                    <div class="port-label">JETS<small>(Retorno 50mm)</small></div>
+                </div>
+            </div>
+
+        </div>
     </div>
 
-    <!-- LISTAS -->
-    <div class="lists">
+    <!-- LISTA DE MATERIALES -->
+    <h2>🛒 Lista de Materiales Definitiva</h2>
+
+    <div class="materials-grid">
         <div class="card">
             <h3>1. Válvulas (CRÍTICO)</h3>
-            <p style="color: #ff5252; font-weight: bold;">⚠️ MANIJA PALANCA (Larga)</p>
+            <div class="warning">⚠️ Deben ser con MANIJA PALANCA (larga) para poner motores Zigbee. No sirven las de mariposa.</div>
             <ul>
-                <li>4 Válvulas Esféricas PVC 50mm (Pegar).</li>
-                <li>(1 Skimmer, 3 Bypass).</li>
+                <li><strong>4 u.</strong> Válvulas Esféricas PVC 50mm (Pegar)</li>
+                <li>Uso: 1 Skimmer + 3 Bypass</li>
             </ul>
         </div>
+
         <div class="card">
-            <h3>2. Salidas (Pasamuros)</h3>
+            <h3>2. Salidas de Gabinete</h3>
             <ul>
-                <li>5 Adaptadores de Tanque 50mm.</li>
-                <li>3 Niples PVC 1 1/2".</li>
-                <li>2 Bujes Reducción 1 1/2" a 3/4" (Caldera).</li>
+                <li><strong>5 u.</strong> Pasamuros / Adaptadores de Tanque 50mm</li>
+                <li><strong>3 u.</strong> Niples PVC 1 1/2"</li>
+                <li><strong>2 u.</strong> Bujes Reducción 1 1/2" a 3/4" (Caldera)</li>
             </ul>
         </div>
+
         <div class="card">
-            <h3>3. Accesorios PVC</h3>
+            <h3>3. Transiciones</h3>
             <ul>
-                <li>15 Codos 90° 50mm.</li>
-                <li>6 Codos 45° 50mm.</li>
-                <li>4 Uniones Dobles 50mm.</li>
-                <li>2 Te 50mm.</li>
+                <li><strong>3 u.</strong> Cuplas Hembra Termofusión 50mm x 1 1/2"</li>
+                <li><strong>2 u.</strong> Cuplas Hembra Termofusión 25mm x 3/4"</li>
+                <li><strong>9 u.</strong> Adaptadores Macho PVC 50mm x 1 1/2"</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>4. Accesorios PVC 50mm</h3>
+            <ul>
+                <li><strong>15 u.</strong> Codos 90°</li>
+                <li><strong>6 u.</strong> Codos 45°</li>
+                <li><strong>4 u.</strong> Uniones Dobles (Equipos)</li>
+                <li><strong>1 u.</strong> Unión Doble (Jets)</li>
+                <li><strong>2 u.</strong> Te 50mm</li>
+                <li><strong>6 u.</strong> Cuplas (Manguitos)</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>5. Caños y Exterior</h3>
+            <ul>
+                <li><strong>2 tiras</strong> PVC Hidráulico 50mm</li>
+                <li><strong>2 tiras</strong> Termofusión 50mm</li>
+                <li><strong>2 tiras</strong> Termofusión 25mm (3/4")</li>
+                <li><strong>6 u.</strong> Codos 90° Termofusión 50mm</li>
+                <li><strong>4 u.</strong> Codos 90° Termofusión 25mm</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>6. Insumos</h3>
+            <ul>
+                <li>1 Adhesivo PVC (Lata grande)</li>
+                <li>1 Solución Limpiadora</li>
+                <li>3 Rollos Teflón Alta Densidad</li>
+                <li>1 Sellador de roscas (Pasta H3)</li>
+                <li>1 Vaselina sólida (para válvulas)</li>
             </ul>
         </div>
     </div>
+
+</div>
 
 </body>
 </html>
-
