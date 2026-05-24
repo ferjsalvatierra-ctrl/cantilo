@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Tablero Eléctrico - Casa 3 Pisos + Solar Híbrido</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: #f0f2f5;
+    padding: 20px;
+    color: #2c3e50;
+  }
+  h1 {
+    text-align: center;
+    color: #1a5490;
+    margin-bottom: 10px;
+    font-size: 24px;
+  }
+  h2 {
+    text-align: center;
+    color: #555;
+    font-weight: normal;
+    margin-bottom: 25px;
+    font-size: 14px;
+  }
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .tablero {
+    background: #2c3e50;
+    border: 4px solid #1a252f;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  }
+  .tablero-titulo {
+    color: #fff;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 8px;
+    background: #1a252f;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+  }
+  .fila {
+    display: grid;
+    grid-template-columns: 80px repeat(18, 1fr);
+    gap: 2px;
+    margin-bottom: 6px;
+    background: #34495e;
+    padding: 4px;
+    border-radius: 4px;
+  }
+  .fila-label {
+    background: #16a085;
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+    text-align: center;
+    padding: 4px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.1;
+  }
+  .modulo {
+    background: #ecf0f1;
+    border: 1px solid #95a5a6;
+    border-radius: 3px;
+    padding: 6px 2px;
+    font-size: 9px;
+    text-align: center;
+    min-height: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    line-height: 1.2;
+    position: relative;
+  }
+  .modulo .tipo {
+    font-weight: bold;
+    font-size: 9px;
+    color: #2c3e50;
+  }
+  .modulo .calibre {
+    font-size: 8px;
+    color: #555;
+    margin-top: 2px;
+  }
+  .modulo .desc {
+    font-size: 8px;
+    color: #777;
+    margin-top: 2px;
+    font-style: italic;
+  }
+
+  /* Colores por tipo */
+  .general { background: #f39c12; color: white; }
+  .general .tipo, .general .calibre, .general .desc { color: white; }
+  
+  .disyuntor { background: #e74c3c; color: white; }
+  .disyuntor .tipo, .disyuntor .calibre, .disyuntor .desc { color: white; }
+  
+  .dps { background: #9b59b6; color: white; }
+  .dps .tipo, .dps .calibre, .dps .desc { color: white; }
+
+  .ct { background: #1abc9c; color: white; }
+  .ct .tipo, .ct .calibre, .ct .desc { color: white; }
+
+  .solar { background: #f1c40f; color: #333; }
+
+  .aire { background: #3498db; color: white; }
+  .aire .tipo, .aire .calibre, .aire .desc { color: white; }
+
+  .ats { background: #8e44ad; color: white; }
+  .ats .tipo, .ats .calibre, .ats .desc { color: white; }
+
+  .diferencial { background: #27ae60; color: white; }
+  .diferencial .tipo, .diferencial .calibre, .diferencial .desc { color: white; }
+
+  .termica { background: #ecf0f1; }
+
+  .bornera { background: #7f8c8d; color: white; }
+  .bornera .tipo, .bornera .calibre, .bornera .desc { color: white; }
+
+  .reserva {
+    background: repeating-linear-gradient(
+      45deg, #d5dbdb, #d5dbdb 5px, #ecf0f1 5px, #ecf0f1 10px
+    );
+    color: #7f8c8d;
+    font-style: italic;
+  }
+
+  /* Spans de múltiples columnas */
+  .span2 { grid-column: span 2; }
+  .span3 { grid-column: span 3; }
+  .span4 { grid-column: span 4; }
+  .span6 { grid-column: span 6; }
+  .span9 { grid-column: span 9; }
+
+  /* Leyenda */
+  .leyenda {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 20px 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  .leyenda h3 {
+    color: #1a5490;
+    margin-bottom: 10px;
+    font-size: 14px;
+  }
+  .leyenda-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 8px;
+  }
+  .leyenda-item {
+    display: flex;
+    align-items: center;
+    font-size: 11px;
+  }
+  .leyenda-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    margin-right: 8px;
+    border: 1px solid #95a5a6;
+  }
+
+  /* Diagrama unifilar */
+  .unifilar {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    text-align: center;
+  }
+  .unifilar h3 {
+    color: #1a5490;
+    margin-bottom: 15px;
+  }
+  .unifilar pre {
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    text-align: left;
+    display: inline-block;
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 6px;
+    border-left: 4px solid #1a5490;
+    line-height: 1.4;
+  }
+
+  /* Resumen tabla */
+  .resumen {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 20px 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  .resumen h3 {
+    color: #1a5490;
+    margin-bottom: 10px;
+  }
+  .resumen table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+  .resumen th {
+    background: #1a5490;
+    color: white;
+    padding: 8px;
+    text-align: left;
+  }
+  .resumen td {
+    padding: 8px;
+    border-bottom: 1px solid #ecf0f1;
+  }
+  .resumen tr:hover {
+    background: #f8f9fa;
+  }
+
+  @media print {
+    body { background: white; padding: 5px; }
+    .tablero { box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>⚡ TABLERO ELÉCTRICO PRINCIPAL</h1>
+<h2>Casa 3 Pisos · Trifásica 63A · Solar Híbrido SolaX X3 6kW + Baterías · ATS Selector de Fase</h2>
+
+<!-- ═══════════════ TABLERO PRINCIPAL ═══════════════ -->
+<div class="tablero">
+<div class="tablero-titulo">📦 TABLERO PRINCIPAL — PLANTA BAJA — 90 MÓDULOS DIN (5×18)</div>
+
+<!-- FILA 1 - CABECERA -->
+<div class="fila">
+  <div class="fila-label">FILA 1<br>CABECERA</div>
+  <div class="modulo general span4">
+    <div class="tipo">IG 4P</div>
+    <div class="calibre">63A · C</div>
+    <div class="desc">Interruptor general</div>
+  </div>
+  <div class="modulo disyuntor span4">
+    <div class="tipo">DISYUNTOR 4P</div>
+    <div class="calibre">63A / 300mA "S"</div>
+    <div class="desc">Tipo A selectivo</div>
+  </div>
+  <div class="modulo dps span3">
+    <div class="tipo">DPS T2 3F</div>
+    <div class="calibre">20/40 kA</div>
+    <div class="desc">Sobretensiones</div>
+  </div>
+  <div class="modulo dps">
+    <div class="tipo">T DPS</div>
+    <div class="calibre">4P 25A</div>
+  </div>
+  <div class="modulo ct span3">
+    <div class="tipo">CT METER</div>
+    <div class="calibre">SolaX DDSU666</div>
+    <div class="desc">3 bobinas R-S-T</div>
+  </div>
+  <div class="modulo solar span3">
+    <div class="tipo">⚡SOLAR 3P</div>
+    <div class="calibre">16A · C</div>
+    <div class="desc">Acople AC desde P2</div>
+  </div>
+</div>
+
+<!-- FILA 2 - AIRE TRIFÁSICO -->
+<div class="fila">
+  <div class="fila-label">FILA 2<br>AIRE 3F</div>
+  <div class="modulo aire span4">
+    <div class="tipo">DIF 4P Tipo F</div>
+    <div class="calibre">40A / 30mA</div>
+    <div class="desc">Superinmunizado</div>
+  </div>
+  <div class="modulo aire span3">
+    <div class="tipo">TÉRMICA 3P</div>
+    <div class="calibre">32-40A · D</div>
+    <div class="desc">AIRE 60.000 BTU</div>
+  </div>
+  <div class="modulo reserva span4">
+    <div class="tipo">RESERVA 3F</div>
+    <div class="desc">Cargador EV / futuro</div>
+  </div>
+  <div class="modulo reserva span4">
+    <div class="tipo">RESERVA 3F</div>
+    <div class="desc">Bomba calor / pileta</div>
+  </div>
+  <div class="modulo reserva span3">
+    <div class="tipo">RESERVA</div>
+  </div>
+</div>
+
+<!-- FILA 3 - ATS -->
+<div class="fila">
+  <div class="fila-label">FILA 3<br>ATS</div>
+  <div class="modulo ats span9">
+    <div class="tipo">🔄 ATS SELECTOR DE FASE 3F→1F</div>
+    <div class="calibre">63A · Automático</div>
+    <div class="desc">Tomzn / Geya / Chint · Retardo configurable</div>
+  </div>
+  <div class="modulo ats span2">
+    <div class="tipo">T 2P</div>
+    <div class="calibre">63A · C</div>
+    <div class="desc">Salida ATS</div>
+  </div>
+  <div class="modulo bornera span4">
+    <div class="tipo">BARRA L+N</div>
+    <div class="desc">Distribución monofásica</div>
+  </div>
+  <div class="modulo reserva span3">
+    <div class="tipo">RESERVA</div>
+  </div>
+</div>
+
+<!-- FILA 4 - PLANTA BAJA -->
+<div class="fila">
+  <div class="fila-label">FILA 4<br>PB 🏠</div>
+  <div class="modulo diferencial span2">
+    <div class="tipo">DIF 2P A</div>
+    <div class="calibre">40A/30mA</div>
+    <div class="desc">ANAFE</div>
+  </div>
+  <div class="modulo termica">
+    <div class="tipo">T 1P</div>
+    <div class="calibre">32A · C</div>
+    <div class="desc">Anafe</div>
+  </div>
+  <div class="modulo reserva">
+    <div class="tipo">Res</div>
+  </div>
+  <div class="modulo diferencial span2">
+    <div class="tipo">DIF 2P A</div>
+    <div class="calibre">25A/30mA</div>
+    <div class="desc">EXTERIOR</div>
+  </div>
+  <div class="modulo termica">
+    <div class="tipo">T 1P</div>
+    <div class="calibre">20A · C</div>
+    <div class="desc">Tomas Ext</div>
+  </div>
+  <div class="modulo reserva">
+    <div class="tipo">Res</div>
+  </div>
+  <div class="modulo diferencial span2">
+    <div class="tipo">DIF 2P A</div>
+    <div class="calibre">40A/30mA</div>
+    <div class="desc">PB INT</div>
+  </div>
+  <div class="modulo termica">
+    <div class="tipo">T 1P</div>
+    <div class="calibre">10A</div>
+    <div class="desc">Luces 1</div>
+  </div>
+  <div class="modulo termica">
+    <div class="tipo">T 1P</div>
+    <div class="calibre">10A</div>
+    <div class="desc">Luces 2</div>
+  </div>
+  <div class="modulo termica">
+    <div class="tipo">T 1P</div>
+    <div class="calibre">20A</div>
+    <div class="desc">Tomas 1</div>
+  </div>
+  <div class="modulo termica">
+    <div class="tipo">T 1P</div>
+    <div class="calibre">20A</div>
+    <div class="desc">Tomas 2</div>
+  </div>
+  <div class="modulo reserva span4">
+    <div class="tipo">RESERVA PB</div>
+    <div class="desc">Lavavajillas / freezer</div>
+  </div>
+</div>
+
+<!-- FILA 5 - PISO 1 + PISO 2 + BORNERAS -->
+<div class="fila">
+  <div class="fila-label">FILA 5<br>P1+P2 🏠🏠</div>
+  <div class="modulo diferencial span2">
+    <div class="tipo">DIF 2P A</div>
+    <div class="calibre">25A/30mA</div>
+    <div class="desc">PISO 1</div>
+  </div>
+  <div class="modulo termica">
+    <div class="tipo">T 1P</div>
+    <div class="calibre">10A</div>
+    <div class="desc">Luces P1</div>
+  </div>
+  <div class="modulo termica">
+    <div class="tipo">T 1P</div>
+    <div class="calibre">20A</div>
+    <div class="desc">Tomas P1</div>
+  </div>
+  <div class="modulo reserva span2">
+    <div class="tipo">Res P1</div>
+    <div class="desc">Split / calefón</div>
+  </div>
+  <div class="modulo diferencial span2">
+    <div class="tipo">DIF 2P A</div>
+    <div class="calibre">25A/30mA</div>
+    <div class="desc">PISO 2</div>
+  </div>
+  <div class="modulo termica">
+    <div class="tipo">T 1P</div>
+    <div class="calibre">10A</div>
+    <div class="desc">Luces P2</div>
+  </div>
+  <div class="modulo termica">
+    <div class="tipo">T 1P</div>
+    <div class="calibre">20A</div>
+    <div class="desc">Tomas P2</div>
+  </div>
+  <div class="modulo reserva span2">
+    <div class="tipo">Res P2</div>
+    <div class="desc">Split / calefón</div>
+  </div>
+  <div class="modulo bornera span3">
+    <div class="tipo">BORNERA N</div>
+    <div class="desc">Neutros (azul)</div>
+  </div>
+  <div class="modulo bornera span3">
+    <div class="tipo">BORNERA PE</div>
+    <div class="desc">Tierras (verde-amar.)</div>
+  </div>
+</div>
+
+</div>
+<!-- FIN TABLERO PRINCIPAL -->
+
+
+<!-- ═══════════════ SUBTABLERO EPS ═══════════════ -->
+<div class="tablero">
+<div class="tablero-titulo">🔋 SUBTABLERO EPS — CARGAS CRÍTICAS (Respaldo con Baterías) — 24 MÓDULOS</div>
+
+<div class="fila" style="grid-template-columns: 80px repeat(12, 1fr);">
+  <div class="fila-label">EPS<br>BATERÍAS</div>
+  <div class="modulo general span2">
+    <div class="tipo">IG EPS</div>
+    <div class="calibre">25A · C</div>
+    <div class="desc">Entrada EPS</div>
+  </div>
+  <div class="modulo diferencial span2">
+    <div class="tipo">DIF GRAL</div>
+    <div class="calibre">25A/30mA A</div>
+    <div class="desc">EPS general</div>
+  </div>
+  <div class="modulo diferencial span2">
+    <div class="tipo">DIF CRÍT.</div>
+    <div class="calibre">25A/30mA A</div>
+    <div class="desc">Cargas críticas</div>
+  </div>
+  <div class="modulo termica">
+    <div class="tipo">T 1P</div>
+    <div class="calibre">20A</div>
+    <div class="desc">❄️ Heladera+Freezer</div>
+  </div>
+  <div class="modulo termica">
+    <div class="tipo">T 1P</div>
+    <div class="calibre">10A</div>
+    <div class="desc">💡 Luz crítica/piso</div>
+  </div>
+  <div class="modulo termica">
+    <div class="tipo">T 1P</div>
+    <div class="calibre">16A</div>
+    <div class="desc">📡 Internet/Router</div>
+  </div>
+  <div class="modulo termica">
+    <div class="tipo">T 1P</div>
+    <div class="calibre">16A</div>
+    <div class="desc">🛏️ Habitación ppal.</div>
+  </div>
+  <div class="modulo bornera span2">
+    <div class="tipo">BORNERAS</div>
+    <div class="desc">N + PE</div>
+  </div>
+</div>
+
+</div>
+<!-- FIN SUBTABLERO EPS -->
+
+
+<!-- ═══════════════ LEYENDA ═══════════════ -->
+<div class="leyenda">
+  <h3>🎨 Leyenda de Colores</h3>
+  <div class="leyenda-grid">
+    <div class="leyenda-item"><div class="leyenda-color" style="background:#f39c12"></div>Interruptor general</div>
+    <div class="leyenda-item"><div class="leyenda-color" style="background:#e74c3c"></div>Disyuntor diferencial general</div>
+    <div class="leyenda-item"><div class="leyenda-color" style="background:#9b59b6"></div>DPS (sobretensiones)</div>
+    <div class="leyenda-item"><div class="leyenda-color" style="background:#1abc9c"></div>CT Meter SolaX</div>
+    <div class="leyenda-item"><div class="leyenda-color" style="background:#f1c40f"></div>Acople solar</div>
+    <div class="leyenda-item"><div class="leyenda-color" style="background:#3498db"></div>Aire trifásico</div>
+    <div class="leyenda-item"><div class="leyenda-color" style="background:#8e44ad"></div>ATS selector de fase</div>
+    <div class="leyenda-item"><div class="leyenda-color" style="background:#27ae60"></div>Diferencial 30mA</div>
+    <div class="leyenda-item"><div class="leyenda-color" style="background:#ecf0f1;border:1px solid #95a5a6"></div>Térmica magnetotérmica</div>
+    <div class="leyenda-item"><div class="leyenda-color" style="background:#7f8c8d"></div>Bornera</div>
+    <div class="leyenda-item"><div class="leyenda-color" style="background:repeating-linear-gradient(45deg,#d5dbdb,#d5dbdb 5px,#ecf0f1 5px,#ecf0f1 10px)"></div>Reserva (módulo libre)</div>
+  </div>
+</div>
+
+
+<!-- ═══════════════ DIAGRAMA UNIFILAR ═══════════════ -->
+<div class="unifilar">
+<h3>🔌 Diagrama Unifilar Simplificado</h3>
+<pre>
+                    ☀️ PANELES (P2 - Terraza)
+                          │
+                    ┌─────▼─────┐
+                    │  SolaX X3 │  + 🔋 BATERÍAS
+                    │  Híbrido  │
+                    │   6 kW    │
+                    └──┬─────┬──┘
+                       │     │
+                  Grid │     │ EPS (respaldo)
+                       │     │
+                       ▼     ▼
+   RED 3F+N ──► [MEDIDOR BIDIRECCIONAL] ──► [CT METER]
+                                                │
+                                          [IG 4P 63A]
+                                                │
+                                          [DISYUNTOR 4P 300mA "S"]
+                                                │
+                                          [DPS T2 3F]
+                                                │
+                  ┌────────────┬────────────────┼───────────────┐
+                  │            │                │               │
+            [Acople Solar]  [Aire 3F]        [ATS]      [Reserva 3F]
+              3P 16A      Dif 4P+T 3P     63A 3F→1F
+                  │            │                │
+                  └─► barra trifásica           ▼
+                       (R-S-T+N)          [T 2P 63A]
+                                                │
+                                          [Barra L+N]
+                                                │
+                  ┌─────────────────┬───────────┼──────────┐
+                  │                 │           │          │
+              [Dif Anafe]     [Dif Exter.]  [Dif PB]  [Dif P1] [Dif P2]
+              T 32A           T 20A         T:10/10   T:10/20  T:10/20
+                                            T:20/20
+
+  ─────────────────────────────────────────────────────────────────────
+
+  EPS ──► [IG 25A] ──► [Dif 4P 30mA] ──► [Dif 2P 30mA] ──► Cargas críticas:
+                                                         • Heladera+Freezer
+                                                         • Luz crítica x piso
+                                                         • Internet/Router
+                                                         • Habitación ppal.
+</pre>
+</div>
+
+
+<!-- ═══════════════ RESUMEN ═══════════════ -->
+<div class="resumen">
+<h3>📊 Resumen de Ocupación de Módulos</h3>
+<table>
+  <tr>
+    <th>Fila / Tablero</th>
+    <th>Función</th>
+    <th>Módulos en uso</th>
+    <th>Reserva</th>
+  </tr>
+  <tr>
+    <td>Fila 1</td><td>Cabecera (IG + Disyuntor + DPS + CT + Solar)</td><td>18</td><td>0</td>
+  </tr>
+  <tr>
+    <td>Fila 2</td><td>Aire trifásico + reserva 3F</td><td>7</td><td>11</td>
+  </tr>
+  <tr>
+    <td>Fila 3</td><td>ATS + barra monofásica</td><td>11</td><td>7</td>
+  </tr>
+  <tr>
+    <td>Fila 4</td><td>Planta Baja (Anafe + Exterior + Internos)</td><td>14</td><td>4</td>
+  </tr>
+  <tr>
+    <td>Fila 5</td><td>Piso 1 + Piso 2 + Borneras N/PE</td><td>16</td><td>2</td>
+  </tr>
+  <tr style="font-weight:bold; background:#ecf0f1;">
+    <td>TOTAL Tablero Principal</td><td></td><td>66 / 90</td><td>24 (27%)</td>
+  </tr>
+  <tr>
+    <td>Subtablero EPS</td><td>Cargas críticas con baterías</td><td>10</td><td>8</td>
+  </tr>
+  <tr style="font-weight:bold; background:#ecf0f1;">
+    <td>TOTAL EPS</td><td></td><td>10 / 18-24</td><td>8 (44%)</td>
+  </tr>
+</table>
+</div>
+
+
+<!-- ═══════════════ NOTAS ═══════════════ -->
+<div class="resumen">
+<h3>📝 Notas Importantes</h3>
+<ul style="font-size:12px; line-height:1.8; padding-left:20px;">
+  <li><strong>Disyuntor general 4P 300mA "S"</strong>: protección anti-incendios y respaldo. Selectivo (retardado) para no disparar antes que los diferenciales 30 mA de cada zona.</li>
+  <li><strong>Diferenciales por zona 30mA Tipo A</strong>: protección de personas. Tipo F para el aire (variador inverter).</li>
+  <li><strong>ATS</strong>: ante caída de fase, conmuta toda la casa monofásica a una fase sana. El aire NO pasa por el ATS (va directo a las 3 fases).</li>
+  <li><strong>CT Meter SolaX</strong>: las 3 bobinas abrazan los cables R-S-T después del IG. Cable de comunicación sube a P2 al inversor.</li>
+  <li><strong>Acople solar</strong>: cable trifásico viene del inversor en P2 y entra a la térmica 3P 16A. Funciona en paralelo con la red.</li>
+  <li><strong>Subtablero EPS</strong>: alimentado por la salida de respaldo del SolaX, solo se activa con corte total de red gracias a las baterías.</li>
+  <li><strong>Activar "Unbalanced Output"</strong> en la configuración del SolaX para compensar el desbalance que genera el ATS.</li>
+  <li><strong>Una sola jabalina</strong> de tierra en PB. PE sube a P2 para marcos de paneles e inversor.</li>
+  <li><strong>Cartelería obligatoria</strong>: "Instalación con generación solar y baterías. Desconectar Red + DC + EPS antes de operar".</li>
+</ul>
+</div>
+
+
+<p style="text-align:center; color:#7f8c8d; font-size:11px; margin-top:30px;">
+Diseño elaborado el 24/05/2026 · Plano debe ser firmado por matriculado antes de la ejecución.
+</p>
+
+</div>
+</body>
+</html>
