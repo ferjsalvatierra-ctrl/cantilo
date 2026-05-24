@@ -619,6 +619,322 @@
 </ul>
 </div>
 
+<!-- ═══════════════ GLOSARIO DE ABREVIATURAS ═══════════════ -->
+<div class="resumen">
+<h3>📖 Glosario de Abreviaturas y Siglas</h3>
+<p style="font-size:11px; color:#666; margin-bottom:12px; font-style:italic;">
+  Significado de las siglas y abreviaturas técnicas usadas en este plano.
+  Pasá el mouse sobre cada término en el tablero para ver una pista rápida.
+</p>
+
+<table>
+  <tr>
+    <th style="width:120px;">Sigla</th>
+    <th>Significado</th>
+    <th>Descripción técnica</th>
+  </tr>
+
+  <!-- Generales del tablero -->
+  <tr style="background:#fff3cd;">
+    <td colspan="3" style="font-weight:bold; color:#856404;">⚙️ Protecciones generales</td>
+  </tr>
+  <tr>
+    <td><strong>IG</strong></td>
+    <td>Interruptor General</td>
+    <td>Llave termomagnética principal que corta toda la instalación.</td>
+  </tr>
+  <tr>
+    <td><strong>DPS</strong></td>
+    <td>Dispositivo de Protección contra Sobretensiones</td>
+    <td>También llamado "descargador" o "SPD". Deriva a tierra los picos de tensión por rayos o de la red.</td>
+  </tr>
+  <tr>
+    <td><strong>SPD</strong></td>
+    <td>Surge Protection Device</td>
+    <td>Sinónimo en inglés de DPS. Es el término que usan los manuales del SolaX.</td>
+  </tr>
+  <tr>
+    <td><strong>RCD</strong></td>
+    <td>Residual Current Device</td>
+    <td>Dispositivo diferencial residual. En español: disyuntor o diferencial.</td>
+  </tr>
+  <tr>
+    <td><strong>MCB</strong></td>
+    <td>Miniature Circuit Breaker</td>
+    <td>Llave termomagnética miniatura (térmica). Protege contra sobrecarga y cortocircuito.</td>
+  </tr>
+  <tr>
+    <td><strong>RCBO</strong></td>
+    <td>Residual Current Breaker with Overcurrent</td>
+    <td>Dispositivo combinado: diferencial + térmica en un solo módulo.</td>
+  </tr>
+  <tr>
+    <td><strong>"S"</strong></td>
+    <td>Selectivo</td>
+    <td>Indica que el dispositivo tiene retardo de disparo intencional (~40 ms) para no actuar antes que los aguas abajo.</td>
+  </tr>
+
+  <!-- Tipos y curvas -->
+  <tr style="background:#d1ecf1;">
+    <td colspan="3" style="font-weight:bold; color:#0c5460;">📐 Curvas y tipos de protección</td>
+  </tr>
+  <tr>
+    <td><strong>Curva B</strong></td>
+    <td>Disparo magnético 3-5 × In</td>
+    <td>Para circuitos resistivos puros (iluminación incandescente). Poco usada hoy.</td>
+  </tr>
+  <tr>
+    <td><strong>Curva C</strong></td>
+    <td>Disparo magnético 5-10 × In</td>
+    <td>Uso general residencial: luces LED, tomas, electrodomésticos.</td>
+  </tr>
+  <tr>
+    <td><strong>Curva D</strong></td>
+    <td>Disparo magnético 10-20 × In</td>
+    <td>Para cargas con alto pico de arranque: motores, compresores inverter, aire acondicionado.</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo AC</strong></td>
+    <td>Diferencial sensible solo a corriente alterna pura</td>
+    <td>Obsoleto para uso residencial moderno. NO recomendado.</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo A</strong></td>
+    <td>Diferencial sensible a CA + corriente pulsante</td>
+    <td>Mínimo recomendado hoy. Funciona bien con electrónica (LED, cargadores, electrodomésticos modernos).</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo F</strong></td>
+    <td>Diferencial superinmunizado para alta frecuencia</td>
+    <td>Compatible con variadores de frecuencia. Necesario para aires inverter y bombas con VFD.</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo B</strong></td>
+    <td>Diferencial sensible a CA + DC</td>
+    <td>Para cargadores de auto eléctrico (EV) y otras cargas con DC.</td>
+  </tr>
+  <tr>
+    <td><strong>In</strong></td>
+    <td>Corriente Nominal</td>
+    <td>Corriente que el dispositivo puede manejar continuamente sin disparar.</td>
+  </tr>
+  <tr>
+    <td><strong>kA / Icn</strong></td>
+    <td>Capacidad de Corte</td>
+    <td>Corriente máxima de cortocircuito que la térmica puede interrumpir sin destruirse.</td>
+  </tr>
+
+  <!-- Polos -->
+  <tr style="background:#d4edda;">
+    <td colspan="3" style="font-weight:bold; color:#155724;">🔌 Polos y configuración</td>
+  </tr>
+  <tr>
+    <td><strong>1P</strong></td>
+    <td>Monopolar</td>
+    <td>1 polo activo (1 fase). Para circuitos monofásicos básicos (luces, tomas).</td>
+  </tr>
+  <tr>
+    <td><strong>2P</strong></td>
+    <td>Bipolar</td>
+    <td>2 polos (1 fase + neutro). Diferenciales monofásicos típicos.</td>
+  </tr>
+  <tr>
+    <td><strong>3P</strong></td>
+    <td>Tripolar</td>
+    <td>3 polos (3 fases). Para cargas trifásicas sin neutro o con neutro común.</td>
+  </tr>
+  <tr>
+    <td><strong>4P</strong></td>
+    <td>Tetrapolar</td>
+    <td>4 polos (3 fases + neutro). Estándar para entrada general trifásica.</td>
+  </tr>
+  <tr>
+    <td><strong>R · S · T</strong></td>
+    <td>Las 3 fases</td>
+    <td>Designación estándar de las 3 fases trifásicas (también L1 · L2 · L3).</td>
+  </tr>
+  <tr>
+    <td><strong>N</strong></td>
+    <td>Neutro</td>
+    <td>Conductor de retorno. Color azul.</td>
+  </tr>
+  <tr>
+    <td><strong>PE</strong></td>
+    <td>Protective Earth</td>
+    <td>Conductor de tierra de protección. Color verde-amarillo.</td>
+  </tr>
+  <tr>
+    <td><strong>L · L+N</strong></td>
+    <td>Línea / Línea + Neutro</td>
+    <td>L = fase activa. L+N = un par de fase y neutro (típica salida monofásica).</td>
+  </tr>
+
+  <!-- Sistema solar -->
+  <tr style="background:#fff3cd;">
+    <td colspan="3" style="font-weight:bold; color:#856404;">☀️ Sistema fotovoltaico</td>
+  </tr>
+  <tr>
+    <td><strong>FV</strong></td>
+    <td>Fotovoltaico</td>
+    <td>Tecnología que convierte luz solar en electricidad (paneles solares).</td>
+  </tr>
+  <tr>
+    <td><strong>PV</strong></td>
+    <td>Photovoltaic</td>
+    <td>Sinónimo en inglés de FV.</td>
+  </tr>
+  <tr>
+    <td><strong>DC / CC</strong></td>
+    <td>Direct Current / Corriente Continua</td>
+    <td>Lo que generan los paneles solares y entregan las baterías.</td>
+  </tr>
+  <tr>
+    <td><strong>AC / CA</strong></td>
+    <td>Alternating Current / Corriente Alterna</td>
+    <td>Lo que entrega la red y produce el inversor en su salida.</td>
+  </tr>
+  <tr>
+    <td><strong>MPPT</strong></td>
+    <td>Maximum Power Point Tracker</td>
+    <td>Seguidor del Punto de Máxima Potencia. Optimiza la extracción de energía de los paneles.</td>
+  </tr>
+  <tr>
+    <td><strong>EPS</strong></td>
+    <td>Emergency Power Supply</td>
+    <td>Salida de emergencia del inversor. Se activa con corte de red, alimentada por baterías.</td>
+  </tr>
+  <tr>
+    <td><strong>Voc</strong></td>
+    <td>Voltaje en circuito abierto</td>
+    <td>Tensión máxima del panel sin carga conectada.</td>
+  </tr>
+  <tr>
+    <td><strong>Isc</strong></td>
+    <td>Corriente de cortocircuito</td>
+    <td>Corriente máxima del panel con sus terminales en corto.</td>
+  </tr>
+  <tr>
+    <td><strong>Vmp · Imp</strong></td>
+    <td>Voltaje y corriente en el punto de máxima potencia</td>
+    <td>Valores nominales de operación óptima del panel.</td>
+  </tr>
+  <tr>
+    <td><strong>kWp</strong></td>
+    <td>Kilovatio pico</td>
+    <td>Potencia pico nominal del campo de paneles bajo condiciones estándar.</td>
+  </tr>
+  <tr>
+    <td><strong>Wp</strong></td>
+    <td>Vatio pico</td>
+    <td>Potencia pico nominal de un panel individual (ej. 500 Wp por panel).</td>
+  </tr>
+  <tr>
+    <td><strong>kWh</strong></td>
+    <td>Kilovatio-hora</td>
+    <td>Unidad de energía. La factura de luz se mide en kWh.</td>
+  </tr>
+  <tr>
+    <td><strong>kVA</strong></td>
+    <td>Kilovoltamperio</td>
+    <td>Potencia aparente del inversor. Incluye potencia activa y reactiva.</td>
+  </tr>
+  <tr>
+    <td><strong>BTU</strong></td>
+    <td>British Thermal Unit</td>
+    <td>Unidad de capacidad frigorífica del aire acondicionado (60 000 BTU ≈ 17,5 kW térmicos).</td>
+  </tr>
+
+  <!-- Selector de fase y red -->
+  <tr style="background:#f8d7da;">
+    <td colspan="3" style="font-weight:bold; color:#721c24;">🔄 Selección de fase y red</td>
+  </tr>
+  <tr>
+    <td><strong>ATS</strong></td>
+    <td>Automatic Transfer Switch</td>
+    <td>Conmutador automático de transferencia. En este plano, selecciona automáticamente la fase sana entre R, S y T.</td>
+  </tr>
+  <tr>
+    <td><strong>CT</strong></td>
+    <td>Current Transformer</td>
+    <td>Transformador/sensor de corriente. Las 3 bobinas del CT Meter abrazan los cables de fase para medir el consumo.</td>
+  </tr>
+  <tr>
+    <td><strong>3F → 1F</strong></td>
+    <td>Trifásico a monofásico</td>
+    <td>Indica que el ATS recibe 3 fases y entrega solo una a las cargas monofásicas.</td>
+  </tr>
+  <tr>
+    <td><strong>3F+N</strong></td>
+    <td>Trifásico con neutro</td>
+    <td>Sistema de 4 conductores (R, S, T, N). Configuración estándar residencial argentina.</td>
+  </tr>
+
+  <!-- Tablero -->
+  <tr style="background:#e2e3e5;">
+    <td colspan="3" style="font-weight:bold; color:#383d41;">📦 Tablero y normativa</td>
+  </tr>
+  <tr>
+    <td><strong>DIN</strong></td>
+    <td>Deutsches Institut für Normung</td>
+    <td>Norma alemana de los rieles de 35 mm donde se montan las protecciones modulares.</td>
+  </tr>
+  <tr>
+    <td><strong>Mód.</strong></td>
+    <td>Módulos DIN</td>
+    <td>Cada protección ocupa 1 o más módulos de 17,5 mm de ancho cada uno.</td>
+  </tr>
+  <tr>
+    <td><strong>IP65</strong></td>
+    <td>Ingress Protection 65</td>
+    <td>Grado de protección contra polvo (6 = total) y agua (5 = chorros). Apto exterior protegido.</td>
+  </tr>
+  <tr>
+    <td><strong>IP55</strong></td>
+    <td>Ingress Protection 55</td>
+    <td>Apto para tomas exteriores con protección contra polvo y chorros de agua suaves.</td>
+  </tr>
+  <tr>
+    <td><strong>IP40</strong></td>
+    <td>Ingress Protection 40</td>
+    <td>Protección básica contra cuerpos sólidos > 1 mm. Típico para tableros interiores.</td>
+  </tr>
+  <tr>
+    <td><strong>AEA</strong></td>
+    <td>Asociación Electrotécnica Argentina</td>
+    <td>Entidad que dicta las normas eléctricas en Argentina (ej. AEA 90364).</td>
+  </tr>
+  <tr>
+    <td><strong>IEC</strong></td>
+    <td>International Electrotechnical Commission</td>
+    <td>Comisión Electrotécnica Internacional. Norma base de la mayoría de países (IEC 60364).</td>
+  </tr>
+
+  <!-- Cableado -->
+  <tr style="background:#d4edda;">
+    <td colspan="3" style="font-weight:bold; color:#155724;">🔗 Cableado y secciones</td>
+  </tr>
+  <tr>
+    <td><strong>mm²</strong></td>
+    <td>Milímetro cuadrado</td>
+    <td>Sección transversal del conductor. Determina la corriente máxima admisible.</td>
+  </tr>
+  <tr>
+    <td><strong>4×6 mm²</strong></td>
+    <td>4 conductores de 6 mm² cada uno</td>
+    <td>Cable trifásico R-S-T-N. Para acometidas y bajadas trifásicas.</td>
+  </tr>
+  <tr>
+    <td><strong>2×2,5 mm²</strong></td>
+    <td>2 conductores de 2,5 mm²</td>
+    <td>Cable monofásico fase + neutro. Para circuitos de tomas (20A).</td>
+  </tr>
+  <tr>
+    <td><strong>RZ1-K · Sintenax</strong></td>
+    <td>Tipos de cable normalizados</td>
+    <td>Cables de uso fijo en instalaciones residenciales. Aislación XLPE o PVC.</td>
+  </tr>
+</table>
+</div>
 
 <p style="text-align:center; color:#7f8c8d; font-size:11px; margin-top:30px;">
 Diseño elaborado el 24/05/2026 · Plano debe ser firmado por matriculado antes de la ejecución.
